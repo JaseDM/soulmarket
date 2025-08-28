@@ -2,8 +2,7 @@ name: Deploy to Plesk
 
 on:
   push:
-    branches:
-      - main   # ajusta si usas otra rama
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
@@ -36,13 +35,21 @@ jobs:
             echo "No build dir found"; exit 1
           fi
 
-      - name: Deploy with rsync
-        uses: burnett01/rsync-deployments@5.2
-        with:
-          switches: -avz --delete --exclude='.well-known'
-          path: ${{ steps.detect.outputs.dir }}/
-          remote_path: ${{ secrets.DEPLOY_PATH }}
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_KEY }}
+      # Paso de diagnóstico: probamos la clave y la conexión
+      - name: Test SSH connectivity
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" 'echo OK_FROM_SERVER'
+
+      # Despliegue con rsync preservando .well-known
+      - name: Deploy via rsync
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          rsync -avz --delete \
+            --exclude='.well-known' \
+            -e "ssh -i /tmp/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no" \
+            "${{ steps.detect.outputs.dir }}/" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/"
