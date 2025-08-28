@@ -35,19 +35,27 @@ jobs:
             echo "No build dir found"; exit 1
           fi
 
+      - name: Validate SSH key format
+        run: |
+          # Escribimos la clave exactamente como llega del secret
+          printf "%s" "${{ secrets.SSH_KEY }}" > /tmp/deploy_key_raw
+          # Normalizamos finales de línea Windows (CRLF -> LF)
+          sed 's/\r$//' /tmp/deploy_key_raw > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          echo "Fingerprint de la clave privada (debería mostrar SHA256 y tipo ed25519):"
+          ssh-keygen -lf /tmp/deploy_key || { echo "Formato de clave inválido"; exit 1; }
+          echo "Primeros 80 chars de la pública derivada (para comparar manualmente si hace falta):"
+          ssh-keygen -y -f /tmp/deploy_key | head -c 80; echo " ..."
+
       # Paso de diagnóstico: probamos la clave y la conexión
       - name: Test SSH connectivity
         run: |
-          echo "${{ secrets.SSH_KEY }}" > /tmp/deploy_key
-          chmod 600 /tmp/deploy_key
           ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" 'echo OK_FROM_SERVER'
 
       # Despliegue con rsync preservando .well-known
       - name: Deploy via rsync
         run: |
-          echo "${{ secrets.SSH_KEY }}" > /tmp/deploy_key
-          chmod 600 /tmp/deploy_key
           rsync -avz --delete \
             --exclude='.well-known' \
             -e "ssh -i /tmp/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no" \
