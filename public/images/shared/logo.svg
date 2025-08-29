@@ -1,0 +1,15 @@
+<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 44C34.1503 44 44 34.1503 44 22C44 9.84973 34.1503 0 22 0C9.84973 0 0 9.84973 0 22C0 34.1503 9.84973 44 22 44Z" fill="black"/>
+<path d="M10.5684 28.6001L21.9999 35.2001" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M22 35.2001L33.4315 28.6001" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M33.4315 28.6L22 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M21.9999 22L10.5684 28.6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M10.5684 28.5999V15.3999" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M22 35.2V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M22 21.9998V8.7998" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M33.4316 28.5999V15.3999" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M10.5684 15.3999L21.9999 21.9999" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M22 21.9999L33.4315 15.3999" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M33.4315 15.3998L22 8.7998" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+<path d="M21.9999 8.7998L10.5684 15.3998" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 4"/>
+</svg>

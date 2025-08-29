@@ -1,28 +1,41 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* === NextSaaS vendor CSS === */
+@import '../styles/vendor/nextsaas/variables.css';
+@import '../styles/vendor/nextsaas/typography.css';
+@import '../styles/vendor/nextsaas/base.css';
+@import '../styles/vendor/nextsaas/common.css';
+@import '../styles/vendor/nextsaas/header.css';
+@import '../styles/vendor/nextsaas/button.css';
+@import '../styles/vendor/nextsaas/badge.css';
+@import '../styles/vendor/nextsaas/custom-swiper.css';
+@import '../styles/vendor/nextsaas/icon-font.css';
+@import '../styles/vendor/nextsaas/number-animation.css';
+/* Si usas swiper o leaflet, descomenta: */
+@import '../styles/vendor/nextsaas/swiper.min.css'; 
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* === Tus overrides (ajustes de marca y pequeños tweaks) === */
+@import '../styles/vendor/nextsaas/overrides.css';
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  /* Usa la variable que inyecta next/font en <html> */
+  body {
+    font-family: var(--font-inter-tight), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  h1,h2,h3,h4,h5,h6 {
+    font-family: var(--font-inter-tight), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans";
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* ==== Overrides temporales para que el header se vea sin depender del JS del theme ==== */
+.header-one { opacity: 1 !important; }
+[data-ns-animate] { opacity: 1 !important; transform: none !important; }
 
 html, body { height: 100%; }
