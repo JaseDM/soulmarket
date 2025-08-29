@@ -2,7 +2,7 @@ name: Deploy to Plesk
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]  # ajusta si usas otra rama
 
 jobs:
   build-and-deploy:
@@ -21,39 +21,46 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build project
+      # IMPORTANTE: tu package.json debe tener:
+      # "build": "next build --turbopack && next export"
+      - name: Build project (Next.js static export)
         run: npm run build
 
-      - name: Detect build dir
+      # Opción A: fijamos explícitamente la carpeta de salida (recomendado)
+      - name: Set build dir
         id: detect
-        run: |
-          if [ -d "dist" ]; then
-            echo "dir=dist" >> $GITHUB_OUTPUT
-          elif [ -d "build" ]; then
-            echo "dir=build" >> $GITHUB_OUTPUT
-          else
-            echo "No build dir found"; exit 1
-          fi
+        run: echo "dir=out" >> $GITHUB_OUTPUT
+
+      # Si prefieres detección, usa esta alternativa:
+      # - name: Detect build dir
+      #   id: detect
+      #   run: |
+      #     if [ -d "out" ]; then
+      #       echo "dir=out" >> $GITHUB_OUTPUT
+      #     elif [ -d "dist" ]; then
+      #       echo "dir=dist" >> $GITHUB_OUTPUT
+      #     elif [ -d "build" ]; then
+      #       echo "dir=build" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "No build dir found"; exit 1
+      #     fi
 
       - name: Validate SSH key format
         run: |
-          # Escribimos la clave exactamente como llega del secret
           printf "%s" "${{ secrets.SSH_KEY }}" > /tmp/deploy_key_raw
-          # Normalizamos finales de línea Windows (CRLF -> LF)
           sed 's/\r$//' /tmp/deploy_key_raw > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          echo "Fingerprint de la clave privada (debería mostrar SHA256 y tipo ed25519):"
+          echo "Fingerprint de la clave privada:"
           ssh-keygen -lf /tmp/deploy_key || { echo "Formato de clave inválido"; exit 1; }
-          echo "Primeros 80 chars de la pública derivada (para comparar manualmente si hace falta):"
+          echo "Pública derivada (primeros 80 chars):"
           ssh-keygen -y -f /tmp/deploy_key | head -c 80; echo " ..."
 
-      # Paso de diagnóstico: probamos la clave y la conexión
       - name: Test SSH connectivity
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" 'echo OK_FROM_SERVER'
 
-      # Despliegue con rsync preservando .well-known
+      # Despliegue con rsync preservando .well-known (no borrar certificados/challenges)
       - name: Deploy via rsync
         run: |
           rsync -avz --delete \
