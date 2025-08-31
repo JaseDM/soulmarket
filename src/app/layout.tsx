@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
+
 import InitTemplateScripts from '@/components/nextsaas/InitTemplateScripts'
+
 import './globals.css'
 import HeaderOne from '@/components/nextsaas/HeaderOne'
+import FooterThree from '@/components/nextsaas/FooterOne'
+import ThemeToggle from '@/components/common/ThemeToggle'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tu-dominio.com'), // <-- cámbialo cuando tengas dominio
@@ -34,12 +38,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className="min-h-dvh bg-[var(--background)] text-[var(--foreground)] antialiased">
         <HeaderOne />
         <InitTemplateScripts />
-        <main className="pt-24">{children}</main>
-        
+        <main className="bg-background-3 dark:bg-background-5">{children}</main>
+        <FooterThree />
+        <ThemeToggle />
       </body>
     </html>
   )

@@ -3,6 +3,12 @@
 =========================== */
 
 import { dividerExpand } from '../utils/divider-expand';
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+
 
 const commonAnimation = {
   init() {

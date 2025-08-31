@@ -43,10 +43,18 @@ export default function HeaderOne({
   return (
     <header>
       <div
+        data-ns-animate
+        data-direction="up"
+        data-offset="20"
         className={[
-          'header-one rounded-full lp:!max-w-[1290px] xl:max-w-[1140px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] min-[500px]:max-w-[450px] min-[425px]:max-w-[375px] max-w-[320px]',
+          'header-one rounded-full',
+          'lp:!max-w-[1290px] xl:max-w-[1140px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] min-[500px]:max-w-[450px] min-[425px]:max-w-[375px] max-w-[320px]',
           'mx-auto w-full fixed left-1/2 -translate-x-1/2 z-50 top-5',
-          'bg-white/90 dark:bg-background-6/80 backdrop-blur border border-stroke-4 dark:border-background-5',
+          // 👇 más transparencia + más blur + saturación
+          'bg-white/30 dark:bg-background-6/30',
+          'backdrop-blur-[25px] backdrop-saturate-150',
+          'border border-stroke-4 dark:border-background-5',
+          // 👇 ojo: aquí faltaba el espacio antes de "flex"
           'flex items-center justify-between px-2.5 xl:py-0 py-2.5',
           className,
         ].join(' ')}
@@ -63,7 +71,7 @@ export default function HeaderOne({
                 height={40}   
                 src="/images/shared/main-logo.svg"
                 alt="SoulMarket"
-                className="dark:invert"
+                className="dark:invert  h-auto w-auto"
               />
             </figure>
 
@@ -74,14 +82,14 @@ export default function HeaderOne({
                 height={44}
                 src="/images/shared/logo.svg"
                 alt="SoulMarket"
-                className="w-full dark:hidden block"
+                className="w-full dark:hidden block  h-auto w-auto"
               />
               <Image
                 width={44}
                 height={44}
                 src="/images/shared/logo-dark.svg"
                 alt="SoulMarket"
-                className="w-full dark:block hidden"
+                className="w-full dark:block hidden  h-auto w-auto"
               />
             </figure>
           </Link>
@@ -107,7 +115,6 @@ export default function HeaderOne({
             ))}
           </ul>
         </nav>
-
         {/* CTA (desktop) */}
         <div className="xl:flex hidden items-center justify-center">
           <Link href={CTA.href} className={['btn','btn-md', btnClass || 'btn-primary'].join(' ')}>
@@ -146,14 +153,14 @@ export default function HeaderOne({
                   alt="SoulMarket"
                   width={44}
                   height={44}
-                  className="w-full dark:hidden block"
+                  className="w-full dark:hidden block h-auto w-auto"
                 />
                 <Image
                   src="/images/shared/logo-dark.svg"
                   alt="SoulMarket"
                   width={44}
                   height={44}
-                  className="w-full dark:block hidden"
+                  className="w-full dark:block hidden h-auto w-auto"
                 />
               </figure>
             </Link>

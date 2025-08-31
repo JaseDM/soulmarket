@@ -1,7 +1,7 @@
 /* =========================
  Theme Price Switcher utility js  
 =========================== */
-
+import gsap from 'gsap'
 const themeSwitcher = {
   elements: null,
   animationConfig: {

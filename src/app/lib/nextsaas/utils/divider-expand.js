@@ -1,3 +1,12 @@
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// evita doble registro si otro módulo ya lo hizo
+if (!gsap.core.globals().ScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
+
 export function dividerExpand(divider) {
   gsap.to(divider, {
     scrollTrigger: {

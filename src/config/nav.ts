@@ -8,12 +8,12 @@ export type NavItem = {
 }
 
 export const MAIN_NAV: NavItem[] = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
+  { href: '/', label: 'Inicio' },
+  { href: '/about', label: 'Sobre Nosotros' },
+  { href: '/services', label: 'Servicios' },
   { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact Us' },
+  { href: '/contact', label: 'Contáctanos' },
 ]
 
 // CTA opcional (si quieres separarlo)
-export const CTA: NavItem = { href: '/signup', label: 'Get started', cta: true }
+export const CTA: NavItem = { href: '/signup', label: 'Habla con nosotros', cta: true }
