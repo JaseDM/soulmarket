@@ -13,7 +13,7 @@ export default function FeatureSection() {
             <div className="mb-8 max-[426px]:mb-5 space-y-5 text-center sm:text-left max-[426px]:text-left">
               <span data-ns-animate data-delay="0.1" className="badge badge-yellow"> ¿Comenzamos? </span>
               <h2 data-ns-animate data-delay="0.2">
-                Cuéntanos tu idea. <br className="hidden lg:block" />
+                Cuéntanos tu idea, <br className="hidden lg:block" />
                 Nosotros la hacemos realidad.
               </h2>
             </div>
@@ -28,7 +28,7 @@ export default function FeatureSection() {
                     className="fill-white dark:fill-secondary"
                   />
                 </svg>
-                <span className="text-secondary dark:text-accent">Nuestro equipo de expertos analizará tus necesidades y pondrá en marcha la solución digital perfecta para tu negocio. Olvídate de complicaciones: trabajamos con metodología “llave en mano” para que recibas resultados listos para usar.</span>
+                <span className="text-secondary dark:text-accent">Nuestro equipo de expertos analizará tus necesidades y pondrá en marcha la solución digital perfecta para tu negocio. Olvídate de complicaciones, trabajamos con metodología "llave en mano" para que recibas resultados listos para usar.</span>
               </li>
              
             </ul>
@@ -60,16 +60,16 @@ export default function FeatureSection() {
                 </div>
                 <div className="w-full h-[1px] bg-secondary/10 dark:bg-accent/10 mb-7" />
                 <div className="items-center justify-between sm:mb-5 text-landing-6">
-                    <h5 className="mb-4 max-[426px]:text-heading-6">Desarrollo & Integración</h5>
+                    <h5 className="mb-4 max-[426px]:text-heading-6">Desarrollo e Integración</h5>
                   <p className="text-tagline-2 font-medium">
-                    Construimos tu proyecto con las tecnologías adecuadas, integrando todo lo que necesites (ERP, CRM, pasarelas de pago…).
+                    Construimos tu proyecto con las tecnologías adecuadas, integrando todo lo que necesites (ERP, CRM, pasarelas de pago, entre otros).
                   </p>
                   {/* SVG icon adaptado aquí igual que antes */}
                 </div>
               </div>
 
               <div data-ns-animate data-delay="0.3" className="bg-white dark:bg-background-6 p-6 rounded-2xl w-full sm:w-2/5">
-                <h5 className="mb-4 max-[426px]:text-heading-6">Diseño & Prototipo</h5>
+                <h5 className="mb-4 max-[426px]:text-heading-6">Diseño y Prototipo</h5>
                 <p className="max-[426px]:text-tagline-2">Te mostramos cómo se verá y funcionará tu solución antes de desarrollarla.</p>
               
               </div>

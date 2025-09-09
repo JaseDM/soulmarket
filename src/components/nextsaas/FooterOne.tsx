@@ -45,7 +45,7 @@ export default function FooterThree({ className = '' }: Props) {
               </figure>
 
               <p className="mt-4 mb-7 text-secondary dark:text-accent">
-                Turpis tortor nunc sed amet et faucibus vitae morbi congue sed id mauris.
+                Digitaliza tu negocio con SoulMarket, tu socio tecnológico.
               </p>
 
               <div className="flex items-center gap-3">

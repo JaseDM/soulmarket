@@ -39,3 +39,69 @@
 [data-ns-animate] { opacity: 1 !important; transform: none !important; }
 
 html, body { height: 100%; }
+
+
+/* === Gradient border hover animation (global) === */
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Estructura del borde y preparación del fondo */
+@layer utilities {
+  .gradient-border {
+    position: relative;
+    padding: 1px; /* grosor del borde */
+    border-radius: 1rem; /* ~ rounded-2xl */
+  }
+  .gradient-animate {
+    background-size: 200% 200%;
+  }
+}
+
+/* Solo anima cuando el contenedor con .group está en hover */
+.group:hover .gradient-animate {
+  animation: gradient-move 6s linear infinite;
+}
+
+
+/* === Animated gradient border (real border ring) === */
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Contenedor que tendrá el borde animado */
+.gradient-border {
+  position: relative;
+  border-radius: 1rem; /* ~ rounded-2xl */
+}
+
+/* Pseudo-elemento que pinta SOLO el borde con máscara */
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  /* El degradado viene por CSS var para personalizar por tarjeta */
+  background: var(--gbg, linear-gradient(90deg, #06b6d4, #a21caf, #6366f1));
+  background-size: 200% 200%;
+
+  /* Deja visible solo un anillo (grosor del borde) */
+  padding: 1px; /* grosor del borde */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Anima el borde SOLO en hover de la tarjeta (grupo) */
+.group:hover .gradient-border::before {
+  animation: gradient-move 6s linear infinite;
+}

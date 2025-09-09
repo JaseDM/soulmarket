@@ -16,4 +16,4 @@ export const MAIN_NAV: NavItem[] = [
 ]
 
 // CTA opcional (si quieres separarlo)
-export const CTA: NavItem = { href: '/signup', label: 'Habla con nosotros', cta: true }
+export const CTA: NavItem = { href: '/contact', label: 'Habla con nosotros', cta: true }

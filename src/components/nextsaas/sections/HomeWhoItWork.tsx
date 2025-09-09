@@ -40,7 +40,7 @@ export default function HowItWorks() {
               data-delay="0.3"
               className="max-w-[850px] text-accent max-lg:text-tagline-2"
             >
-              En SoulMarket no solo desarrollamos tecnología: la ponemos al servicio de tu negocio. Te ayudamos a ahorrar tiempo, vender más y trabajar con la tranquilidad de tener un socio digital experto a tu lado. Solo tendrás que preocuparte de lo más importante para tu negocio: PRODUCIR
+              En SoulMarket no solo desarrollamos tecnología, la ponemos al servicio de tu negocio. Te ayudamos a ahorrar tiempo, vender más y trabajar con la tranquilidad de tener un socio digital experto a tu lado. Solo tendrás que preocuparte de lo más importante para tu negocio: PRODUCIR
             </p>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function HowItWorks() {
             </h4>
             <h5 className="text-accent mb-2 max-lg:text-lg">Impulsa tus ventas</h5>
             <p className="text-accent/60 max-lg:text-tagline-2">
-              Creamos webs, apps y e-commerce que atraen clientes y los convierten en ventas, integrando pasarelas de pago seguras y estrategias digitales efectivas.
+              Creamos webs, e-commerce y apps que atraen clientes y los convierten en ventas, integrando pasarelas de pago seguras y estrategias digitales efectivas.
             </p>
           </div>
 
@@ -88,7 +88,7 @@ export default function HowItWorks() {
             </h4>
             <h5 className="text-accent mb-2 max-lg:text-lg">Trabaja sin preocupaciones</h5>
             <p className="text-accent/60 max-lg:text-tagline-2">
-              Nos encargamos de todo tu ecosistema digital: desde servidores y seguridad hasta marketing y diseño. Con presupuestos claros y soporte experto.
+              Nos encargamos de todo tu ecosistema digital, desde servidores y seguridad hasta marketing y diseño. Con presupuestos claros y soporte experto.
             </p>
           </div>
         </div>
