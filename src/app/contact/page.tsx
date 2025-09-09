@@ -127,40 +127,41 @@ export default function Page() {
 }
 
 /* ---------- UI helpers ---------- */
-// Dentro de page.tsx: ContactCard SIN any
-function ContactCard({
-  title,
-  value,
-  href,
-  icon,
-  gradient,
-}: {
-  title: string;
-  value: string;
-  href?: string;
-  icon: React.ReactNode;
-  gradient: string; // CSS linear-gradient(...)
-}) {
-  const card = (
-    <div
-      className="gradient-border h-full"
-      style={{ ["--gbg" as "--gbg"]: gradient } as React.CSSProperties & Record<"--gbg", string>}
-    >
-      <div className="relative z-[1] flex h-full flex-col justify-between overflow-hidden rounded-[calc(1rem-1px)] border border-slate-200/70 bg-white/70 p-6 shadow-sm backdrop-blur-md transition hover:border-cyan-500/40 dark:border-white/10 dark:bg-slate-900/60">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br from-white/20 to-transparent blur-2xl opacity-60 transition-opacity duration-300 group-hover:opacity-100"
-        />
-        <div className="relative">
-          <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-cyan-700 ring-1 ring-inset ring-slate-200 dark:bg-white/5 dark:text-cyan-300 dark:ring-white/10">
-            {icon}
+  // Dentro de page.tsx: ContactCard SIN any
+  function ContactCard({
+    title,
+    value,
+    href,
+    icon,
+    gradient,
+  }: {
+    title: string;
+    value: string;
+    href?: string;
+    icon: React.ReactNode;
+    gradient: string; // CSS linear-gradient(...)
+  }) {
+    // Tipado correcto para variables CSS personalizadas sin "as any" ni literal assertion
+    type CSSVars = React.CSSProperties & { ["--gbg"]?: string };
+    const style: CSSVars = { ["--gbg"]: gradient };
+
+    const card = (
+      <div className="gradient-border h-full" style={style}>
+        <div className="relative z-[1] flex h-full flex-col justify-between overflow-hidden rounded-[calc(1rem-1px)] border border-slate-200/70 bg-white/70 p-6 shadow-sm backdrop-blur-md transition hover:border-cyan-500/40 dark:border-white/10 dark:bg-slate-900/60">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br from-white/20 to-transparent blur-2xl opacity-60 transition-opacity duration-300 group-hover:opacity-100"
+          />
+          <div className="relative">
+            <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-cyan-700 ring-1 ring-inset ring-slate-200 dark:bg-white/5 dark:text-cyan-300 dark:ring-white/10">
+              {icon}
+            </div>
+            <div className="text-sm text-slate-500 dark:text-slate-400">{title}</div>
           </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400">{title}</div>
+          <div className="mt-4 text-lg font-semibold text-slate-800 dark:text-slate-100">{value}</div>
         </div>
-        <div className="mt-4 text-lg font-semibold text-slate-800 dark:text-slate-100">{value}</div>
       </div>
-    </div>
-  );
+    );
 
   return href ? (
     <a href={href} className="group block h-full">

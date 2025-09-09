@@ -28,7 +28,7 @@ export default function FeatureSection() {
                     className="fill-white dark:fill-secondary"
                   />
                 </svg>
-                <span className="text-secondary dark:text-accent">Nuestro equipo de expertos analizará tus necesidades y pondrá en marcha la solución digital perfecta para tu negocio. Olvídate de complicaciones, trabajamos con metodología "llave en mano" para que recibas resultados listos para usar.</span>
+                <span className="text-secondary dark:text-accent">Nuestro equipo de expertos analizará tus necesidades y pondrá en marcha la solución digital perfecta para tu negocio. Olvídate de complicaciones, trabajamos con metodología &quot;llave en mano&quot; para que recibas resultados listos para usar.</span>
               </li>
              
             </ul>
