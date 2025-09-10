@@ -125,7 +125,7 @@ export default function ContactForm() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            política de privacidad
+            política de privacidad - 
           </a>
           .
         </label>
