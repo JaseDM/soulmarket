@@ -1,9 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  //output: 'export',
+  output: 'export',
   images: { unoptimized: true },
-  typedRoutes: true,   // 👈 ya no dentro de experimental
+  typedRoutes: true,
 };
 
 export default nextConfig;
