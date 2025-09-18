@@ -69,9 +69,16 @@ export default function HeaderOne({
               <Image
                 width={198}          // 👈 obligatorio
                 height={40}   
+                src="/images/shared/dark-logo.svg"
+                alt="SoulMarket"
+                className="hidden dark:block  h-auto w-auto"
+              />
+              <Image
+                width={198}          // 👈 obligatorio
+                height={40}   
                 src="/images/shared/main-logo.svg"
                 alt="SoulMarket"
-                className="dark:invert  h-auto w-auto"
+                className="dark:hidden  h-auto w-auto"
               />
             </figure>
 

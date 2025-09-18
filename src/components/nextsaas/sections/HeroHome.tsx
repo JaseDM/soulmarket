@@ -78,7 +78,7 @@ export default function HeroHome() {
                 >
                     <li data-ns-animate data-delay="0.3" data-direction="left" data-offset="50">
                         <a
-                            href="./login-page-01.html"
+                            href="/contact"
                             className="btn btn-primary hover:btn-white-dark dark:hover:btn-white btn-lg md:btn-xl w-full md:w-auto mx-auto md:mx-0"
                         >
                             <span>Habla con un experto</span>
