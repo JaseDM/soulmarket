@@ -20,6 +20,9 @@ export default function ContactForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    const companyId = Number((form.get("company_id") as string) || "4");
+    const sourceId = Number((form.get("source_id") as string) || "10");
+    const teamId = Number((form.get("area_interes") as string) || "");
     if ((form.get("website") as string)?.trim()) return; // honeypot
 
     const payload = {
@@ -27,7 +30,9 @@ export default function ContactForm() {
       telefono: (form.get("telefono") as string | null)?.trim() || "",
       email: (form.get("email") as string | null)?.trim() || "",
       mensaje: (form.get("mensaje") as string | null)?.trim() || "",
-      area_interes: (form.get("area_interes") as string | null)?.trim() || "",
+      teamId,
+      companyId,
+      sourceId,
     };
 
     const errors: string[] = [];
@@ -36,7 +41,7 @@ export default function ContactForm() {
     if (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))
       errors.push("El email no es válido.");
     if (!payload.mensaje) errors.push("El mensaje es obligatorio.");
-    if (!payload.area_interes) errors.push("Selecciona un área de interés.");
+    if (!payload.teamId) errors.push("Selecciona un área de interés.");
     if (payload.telefono && !/^\+?[0-9\s-]{7,15}$/.test(payload.telefono))
       errors.push("El teléfono no es válido.");
     if (form.get("privacy") !== "on") errors.push("Debes aceptar la política de privacidad.");
@@ -57,9 +62,9 @@ export default function ContactForm() {
           email: payload.email,
           phone: payload.telefono || undefined,
           message: payload.mensaje,
-          source: "web_contact",
-          company: { id: 4 },
-          team: { name: payload.area_interes },
+          source: { id: payload.sourceId },
+          company: { id: payload.companyId },
+          team: { id: payload.teamId },
         }),
         // include credentials only if same-origin; leave out by default to avoid CORS preflight issues
       });
@@ -78,6 +83,9 @@ export default function ContactForm() {
     <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
       {/* Honeypot */}
       <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+      {/* Hidden defaults required by backend/Odoo */}
+      <input type="hidden" name="company_id" value="4" />
+      <input type="hidden" name="source_id" value="10" />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Nombre" htmlFor="nombre" required>
@@ -110,9 +118,9 @@ export default function ContactForm() {
           <option value="" disabled>
             Selecciona un equipo
           </option>
-          <option value="tecnología">Tecnología (web, hosting, integraciones)</option>
-          <option value="marketing">Marketing (comunicación y SEO/Ads)</option>
-          <option value="audiovisual">Audiovisual (foto y vídeo)</option>
+          <option value="6">Tecnología (web, hosting, integraciones)</option>
+          <option value="4">Marketing (comunicación y SEO/Ads)</option>
+          <option value="5">Audiovisual (foto y vídeo)</option>
         </select>
       </Field>
 

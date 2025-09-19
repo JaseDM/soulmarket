@@ -46,28 +46,28 @@ export default function Page() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-stretch">
           <ContactCard
             title="Email"
-            value="hola@soulmarket.es"
-            href="mailto:hola@soulmarket.es"
+            value="info@soulmarket.es"
+            href="mailto:info@soulmarket.es"
             icon={<MailIcon className="h-6 w-6" />}
             gradient="from-cyan-500 via-fuchsia-500 to-indigo-500"
           />
           <ContactCard
             title="Teléfono"
-            value="+34 600 000 000"
-            href="tel:+34600000000"
+            value="+34 625 030 452"
+            href="tel:+34625030452"
             icon={<PhoneIcon className="h-6 w-6" />}
             gradient="from-emerald-500 via-cyan-500 to-blue-500"
           />
           <ContactCard
             title="WhatsApp"
-            value="+34 600 000 000"
-            href="https://wa.me/34600000000"
+            value="+34 625 030 452"
+            href="https://wa.me/34625030452"
             icon={<WhatsappIcon className="h-6 w-6" />}
             gradient="from-lime-500 via-emerald-500 to-cyan-500"
           />
           <ContactCard
             title="Horario"
-            value="Lunes a Viernes · 9:00–18:00"
+            value="Lunes a Viernes · 9:00–17:00"
             href="#form"
             icon={<ClockIcon className="h-6 w-6" />}
             gradient="from-violet-500 via-fuchsia-500 to-rose-500"
