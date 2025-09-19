@@ -27,6 +27,7 @@ export default function ContactForm() {
       telefono: (form.get("telefono") as string | null)?.trim() || "",
       email: (form.get("email") as string | null)?.trim() || "",
       mensaje: (form.get("mensaje") as string | null)?.trim() || "",
+      area_interes: (form.get("area_interes") as string | null)?.trim() || "",
     };
 
     const errors: string[] = [];
@@ -35,6 +36,7 @@ export default function ContactForm() {
     if (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))
       errors.push("El email no es válido.");
     if (!payload.mensaje) errors.push("El mensaje es obligatorio.");
+    if (!payload.area_interes) errors.push("Selecciona un área de interés.");
     if (payload.telefono && !/^\+?[0-9\s-]{7,15}$/.test(payload.telefono))
       errors.push("El teléfono no es válido.");
     if (form.get("privacy") !== "on") errors.push("Debes aceptar la política de privacidad.");
@@ -46,15 +48,20 @@ export default function ContactForm() {
 
     try {
       setState({ status: "submitting" });
-      const res = await fetch("/api/contact", {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE ?? "https://api.soulmarket.es";
+      const res = await fetch(`${apiBase}/odoo/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: payload.nombre,
-          telefono: payload.telefono,
+          name: payload.nombre,
           email: payload.email,
-          mensaje: payload.mensaje,
+          phone: payload.telefono || undefined,
+          message: payload.mensaje,
+          source: "web_contact",
+          company: { id: 4 },
+          team: { name: payload.area_interes },
         }),
+        // include credentials only if same-origin; leave out by default to avoid CORS preflight issues
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => undefined)) as { error?: string } | undefined;
@@ -98,6 +105,17 @@ export default function ContactForm() {
         />
       </Field>
 
+      <Field label="Área de interés" htmlFor="area_interes" required>
+        <select id="area_interes" name="area_interes" required className={inputClass} defaultValue="">
+          <option value="" disabled>
+            Selecciona un equipo
+          </option>
+          <option value="tecnología">Tecnología (web, hosting, integraciones)</option>
+          <option value="marketing">Marketing (comunicación y SEO/Ads)</option>
+          <option value="audiovisual">Audiovisual (foto y vídeo)</option>
+        </select>
+      </Field>
+
       <Field label="Mensaje" htmlFor="mensaje" required>
         <textarea
           id="mensaje"
@@ -125,7 +143,7 @@ export default function ContactForm() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            política de privacidad - 
+            política de privacidad
           </a>
           .
         </label>

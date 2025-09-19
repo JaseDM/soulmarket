@@ -46,8 +46,8 @@ export default function Page() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-stretch">
           <ContactCard
             title="Email"
-            value="hola@soulmarket.com"
-            href="mailto:hola@soulmarket.com"
+            value="hola@soulmarket.es"
+            href="mailto:hola@soulmarket.es"
             icon={<MailIcon className="h-6 w-6" />}
             gradient="from-cyan-500 via-fuchsia-500 to-indigo-500"
           />
