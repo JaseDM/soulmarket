@@ -47,17 +47,25 @@ jobs:
 
       - name: Validate SSH key format
         run: |
-          printf "%s" "${{ secrets.SSH_KEY }}" > /tmp/deploy_key_raw
-          sed 's/\r$//' /tmp/deploy_key_raw > /tmp/deploy_key
+          umask 077
+          cat <<'EOF' > /tmp/deploy_key
+          ${{ secrets.SSH_KEY }}
+          EOF
           chmod 600 /tmp/deploy_key
           echo "Fingerprint de la clave privada:"
           ssh-keygen -lf /tmp/deploy_key || { echo "Formato de clave inválido"; exit 1; }
           echo "Pública derivada (primeros 80 chars):"
           ssh-keygen -y -f /tmp/deploy_key | head -c 80; echo " ..."
 
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
       - name: Test SSH connectivity
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
+          ssh -o BatchMode=yes -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" 'echo OK_FROM_SERVER'
 
       # Despliegue con rsync preservando .well-known (no borrar certificados/challenges)
@@ -65,6 +73,7 @@ jobs:
         run: |
           rsync -avz --delete \
             --exclude='.well-known' \
-            -e "ssh -i /tmp/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no" \
+            --chmod=D755,F644 \
+            -e "ssh -i /tmp/deploy_key -p ${{ secrets.SSH_PORT }}" \
             "${{ steps.detect.outputs.dir }}/" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/"
