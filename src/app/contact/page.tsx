@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
 import React from "react";
+import Tetris from "@/components/interactive/Tetris";
 
 
 export const metadata: Metadata = {
@@ -93,32 +94,7 @@ export default function Page() {
 
           {/* INFO / MAPA */}
           <div className="space-y-6">
-            <div className="rounded-2xl border border-slate-200/70 bg-white/70 p-6 shadow-lg backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/60">
-              <h3 className="text-xl font-semibold">Otros métodos</h3>
-              <ul className="mt-4 space-y-3 text-slate-600 dark:text-slate-300">
-                <li className="flex items-start gap-3">
-                  <CheckIcon className="mt-1 h-5 w-5 flex-none text-emerald-600 dark:text-emerald-400" />
-                  Soporte prioritario para clientes con SLA.
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckIcon className="mt-1 h-5 w-5 flex-none text-emerald-600 dark:text-emerald-400" />
-                  Reuniones por Google Meet o Zoom bajo cita.
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckIcon className="mt-1 h-5 w-5 flex-none text-emerald-600 dark:text-emerald-400" />
-                  Integraciones y partnerships a medida.
-                </li>
-              </ul>
-            </div>
-
-            <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm dark:border-white/10 dark:bg-slate-900">
-              <iframe
-                title="Mapa Soulmarket"
-                src="https://www.google.com/maps?q=Puerta+del+Sol+Madrid&output=embed"
-                className="h-[320px] w-full"
-                loading="lazy"
-              />
-            </div>
+            <Tetris />
           </div>
         </div>
       </section>
