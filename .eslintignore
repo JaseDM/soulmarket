@@ -1,0 +1,16 @@
+# generados
+.next
+node_modules
+public
+**/dist/**
+**/build/**
+**/*.min.js
+
+# vendor/terceros dentro de src
+**/vendor/**
+**/vendors/**
+**/third_party/**
+**/third-party/**
+
+# estilos y assets (no JS/TS)
+src/styles/**
