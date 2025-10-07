@@ -1,12 +1,14 @@
 {
-  "name": "internacional",
-  "version": "0.1.0",
+  "name": "SoulMarket",
+  "version": "0.2.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
