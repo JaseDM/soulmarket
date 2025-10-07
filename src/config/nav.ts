@@ -1,19 +1,30 @@
-import type { Route } from 'next'
+// src/config/nav.ts
+import type {Href} from '@/i18n/navigation'
+
+export type HeaderKey =
+  | 'home'
+  | 'about'
+  | 'services'
+  | 'portfolio'
+  | 'contact'
+  | 'cta'
+  | 'openMenu'
+  | 'closeMenu'
 
 export type NavItem = {
-  href: Route            // typedRoutes: valida rutas existentes
-  label: string
-  external?: boolean     // por si algún día apuntas fuera
-  cta?: boolean          // para marcar el botón principal
+  href: Href
+  /** Clave en messages.json → "Header.<key>" */
+  i18nKey?: `Header.${HeaderKey}`
+  /** Fallback opcional (si no hay i18nKey) */
+  label?: string
 }
 
 export const MAIN_NAV: NavItem[] = [
-  { href: '/', label: 'Inicio' },
-  { href: '/about', label: 'Sobre Nosotros' },
-  { href: '/services', label: 'Servicios' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contáctanos' },
+  {href: '/',          i18nKey: 'Header.home'},
+  {href: '/about',     i18nKey: 'Header.about'},
+  {href: '/services',  i18nKey: 'Header.services'},
+  {href: '/portfolio', i18nKey: 'Header.portfolio'},
+  {href: '/contact',   i18nKey: 'Header.contact'}
 ]
 
-// CTA opcional (si quieres separarlo)
-export const CTA: NavItem = { href: '/contact', label: 'Habla con nosotros', cta: true }
+export const CTA: NavItem = {href: '/contact', i18nKey: 'Header.cta'}

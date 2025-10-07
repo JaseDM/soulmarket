@@ -1,9 +1,6 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const nextConfig: NextConfig = {
-  output: 'export',
-  images: { unoptimized: true },
-  typedRoutes: true,
-};
+const nextConfig: NextConfig = {};
 
-export default nextConfig;
+export default createNextIntlPlugin()(nextConfig);

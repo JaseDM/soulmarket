@@ -1,22 +1,36 @@
 @import "tailwindcss";
 
+/* === Vendor CSS (librerías externas) === */
+/*@import "../styles/vendor/leaflet.min.css";*/
+@import "../styles/vendor/swiper.min.css";
+@import "../styles/vendor/vanilla-infinite-marquee.min.css";
 
-/* === NextSaaS vendor CSS === */
-@import '../styles/vendor/nextsaas/variables.css';
-@import '../styles/vendor/nextsaas/typography.css';
-@import '../styles/vendor/nextsaas/base.css';
-@import '../styles/vendor/nextsaas/common.css';
-@import '../styles/vendor/nextsaas/header.css';
-@import '../styles/vendor/nextsaas/button.css';
-@import '../styles/vendor/nextsaas/badge.css';
-@import '../styles/vendor/nextsaas/custom-swiper.css';
-@import '../styles/vendor/nextsaas/icon-font.css';
-@import '../styles/vendor/nextsaas/number-animation.css';
-/* Si usas swiper o leaflet, descomenta: */
-@import '../styles/vendor/nextsaas/swiper.min.css'; 
+/* === CSS de la plantilla === */
+@import "../styles/template/badge.css";
+@import "../styles/template/base.css";
+@import "../styles/template/button.css";
+@import "../styles/template/common.css";
+@import "../styles/template/custom-swiper.css";
+@import "../styles/template/header.css";
+@import "../styles/template/icon-font.css";
+@import "../styles/template/navigation-menu.css";
+@import "../styles/template/number-animation.css";
+@import "../styles/template/typography.css";
+@import "../styles/template/variables.css";
 
-/* === Tus overrides (ajustes de marca y pequeños tweaks) === */
-@import '../styles/vendor/nextsaas/overrides.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* base: siempre suave */
+.header-bar {
+  @apply transition-all duration-500 ease-in-out;
+}
+
+/* estado con scroll */
+.header-bar.is-scrolled {
+  @apply bg-white/70 dark:bg-gray-900/70 shadow-md border-white/30;
+  transform: translateY(-2px); /* sutil “pegado” */
+}
 
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -34,9 +48,6 @@
   }
 }
 
-/* ==== Overrides temporales para que el header se vea sin depender del JS del theme ==== */
-.header-one { opacity: 1 !important; }
-[data-ns-animate] { opacity: 1 !important; transform: none !important; }
 
 html, body { height: 100%; }
 
@@ -105,3 +116,4 @@ html, body { height: 100%; }
 .group:hover .gradient-border::before {
   animation: gradient-move 6s linear infinite;
 }
+

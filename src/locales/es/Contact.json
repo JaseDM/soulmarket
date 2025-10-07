@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "badge": "Hablemos",
+    "title": "Contacto {brand}",
+    "description": "Cuéntanos tu idea, solicita soporte o pide una demo. Te responderemos lo antes posible."
+  },
+  "cards": {
+    "email": { "title": "Correo" },
+    "phone": { "title": "Teléfono" },
+    "whatsapp": { "title": "WhatsApp" },
+    "hours": { "title": "Horario", "value": "Lunes a Viernes · 9:00–17:00" }
+  },
+  
+  "form": {
+    "title": "Envíanos un mensaje",
+    "subtitle": "Rellena el formulario y nos pondremos en contacto contigo en breve.",
+    "fields": {
+      "name": {
+        "label": "Nombre",
+        "placeholder": "Tu nombre"
+      },
+      "phone": {
+        "label": "Teléfono",
+        "placeholder": "+34 600 000 000"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "tu@correo.com"
+      },
+      "team": {
+        "label": "Área de interés",
+        "placeholder": "Selecciona un equipo"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "¿En qué podemos ayudarte?"
+      }
+    },
+    "options": {
+      "team": {
+        "6": "Tecnología (web, hosting, integraciones)",
+        "4": "Marketing (comunicación y SEO/Ads)",
+        "5": "Audiovisual (foto y vídeo)"
+      }
+    },
+    "privacy": {
+      "labelPrefix": "He leído y acepto la",
+      "linkText": "política de privacidad"
+    },
+    "infoLine": "Usamos tus datos solo para responderte.",
+    "actions": {
+      "submit": "Enviar",
+      "sending": "Enviando…"
+    },
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "email": "El email no es válido.",
+      "phone": "El teléfono no es válido.",
+      "team": "Selecciona un área de interés."
+    },
+    "feedback": {
+      "success": "¡Mensaje enviado! Te contactaremos muy pronto.",
+      "error": "Ha ocurrido un error. Inténtalo de nuevo."
+    }
+  },
+  "tetris": {
+    "title": "Tetris",
+    "score": "Puntuación",
+    "level": "Nivel",
+    "start": "Iniciar",
+    "pause": "Pausa",
+    "resume": "Reanudar",
+    "restart": "Reiniciar",
+    "overlayStartTitle": "Tetris",
+    "overlayStartHint": "Pulsa Iniciar o la barra espaciadora para empezar.",
+    "overlayGameOver": "¡Game Over!",
+    "controlsHint": "Controles: Iniciar (botón), ← → mover, ↑ rotar, ↓ bajar, barra espaciadora soltar."
+  }
+}

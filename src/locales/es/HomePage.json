@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "bgAlt": "Fondo de cabecera con puntos",
+    "badge": "Tecnología • Marketing • Diseño • Infraestructura",
+    "title": {
+      "line1": "Transformación <highlight>Digital</highlight> 360",
+      "line2": "<highlight>IA</highlight> aplicada al negocio"
+    },
+    "description": "Lleva tu negocio al siguiente nivel con IA y automatización. En SoulMarket diseñamos soluciones digitales 360º para ahorrar tiempo, vender más y simplificar tus procesos.",
+    "ctaPrimary": "Habla con un experto"
+  },
+  
+  "start": {
+    "badge": "¿Comenzamos?",
+    "titleLine1": "Cuéntanos tu idea,",
+    "titleLine2": "Nosotros la hacemos realidad.",
+    "bullet1": "Nuestro equipo de expertos analizará tus necesidades y pondrá en marcha la solución digital perfecta para tu negocio. Olvídate de complicaciones, trabajamos con metodología \"llave en mano\" para que recibas resultados listos para usar.",
+    "cta": "Háblanos de tu proyecto",
+    "requirements": {
+      "title": "Toma de\nrequerimientos",
+      "desc": "Escuchamos tu idea, entendemos tus necesidades y definimos juntos los objetivos."
+    },
+    "devIntegration": {
+      "title": "Desarrollo e Integración",
+      "desc": "Construimos tu proyecto con las tecnologías adecuadas, integrando todo lo que necesites (ERP, CRM, pasarelas de pago, entre otros)."
+    },
+    "designPrototype": {
+      "title": "Diseño y Prototipo",
+      "desc": "Te mostramos cómo se verá y funcionará tu solución antes de desarrollarla."
+    },
+    "handoff": {
+      "badge": "Entrega llave en mano",
+      "desc": "Te entregamos un proyecto listo para usar, con soporte y seguimiento."
+    }
+  },
+  "services": {
+    "tabs": {
+      "business": "Negocio y procesos",
+      "product": "Producto digital",
+      "branding": "Marca y visibilidad",
+      "infrastructure": "Infraestructura"
+    },
+    "tab1": {
+      "badge": "Lo hacemos",
+      "title": "Transformación <highlight>Digital</highlight> & Automatización",
+      "lead": "Llevamos tu negocio al siguiente nivel con IA, ERP y CRM, optimizando procesos y reduciendo costes.",
+      "items": [
+        { "title": "ERP y CRM OpenSource o a medida", "desc": "Odoo, HubSpot, Zoho..." },
+        { "title": "Automatización de procesos y tareas", "desc": "n8n, Make, Zapier..." },
+        { "title": "IA aplicada al negocio", "desc": "Chatbots, generación de imágenes, análisis de datos..." },
+        { "title": "Integración entre herramientas y APIs", "desc": "API REST, SOAP, microservicios..." }
+      ],
+      "cta": "Habla con nuestros expertos",
+      "imageAlt": "Ilustración de automatización"
+    },
+    "tab2": {
+      "badge": "Esto también lo hacemos",
+      "title": "Desarrollo Web <amp>&</amp> App",
+      "lead": "Creamos webs y aplicaciones que no solo se ven bien, sino que impulsan resultados: rápidas, seguras y listas para crecer con tu negocio.",
+      "items": [
+        { "title": "Webs corporativas y profesionales", "desc": "Vue, React, Angular, Python..." },
+        { "title": "E-commerce con pasarelas de pago", "desc": "PrestaShop, Shopify, soluciones a medida..." },
+        { "title": "Aplicaciones móviles (iOS/Android)", "desc": "Nativas, Flutter, React Native..." },
+        { "title": "UX/UI y producto digital", "desc": "Siempre el usuario en el centro." }
+      ],
+      "cta": "Habla con un experto",
+      "imageAlt": "Ilustración de desarrollo de software"
+    },
+    "tab3": {
+      "badge": "Hablamos por ti",
+      "title": "Marketing <amp>&</amp> Comunicación",
+      "lead": "Estrategias creativas y medibles para atraer clientes y consolidar tu marca.",
+      "items": [
+        { "title": "Estrategia digital y campañas", "desc": "SEO, SEM, Ads" },
+        { "title": "Gestión de redes sociales", "desc": "Contenidos, comunidad, influencers..." },
+        { "title": "Diseño gráfico online/offline", "desc": "Branding, logos, identidad corporativa..." },
+        { "title": "Producción y edición de vídeo/foto", "desc": "Reels, spots, vídeos corporativos..." }
+      ],
+      "cta": "¿Hablamos?",
+      "imageAlt": "Ilustración de comunicación y marketing"
+    },
+    "tab4": {
+      "badge": "¿Quieres estar tranquilo?",
+      "title": "Infraestructura <amp>&</amp> Soporte Técnico",
+      "lead": "Nos encargamos de la base tecnológica para que tu negocio funcione sin interrupciones.",
+      "items": [
+        { "title": "Servidores y redes empresariales", "desc": "Mantenimiento y gestión de servidores, redes y sistemas." },
+        { "title": "Gestión de bases de datos", "desc": "Creación, mantenimiento y optimización." },
+        { "title": "Integraciones técnicas avanzadas", "desc": "Implementación de API, conectividad y automatización de procesos." },
+        { "title": "Soporte y mantenimiento especializado", "desc": "Soporte técnico y gestión de incidencias." }
+      ],
+      "cta": "Cuéntanos tu idea",
+      "imageAlt": "Ilustración de redes e infraestructura"
+    }
+  }
+}
