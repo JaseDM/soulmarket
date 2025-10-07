@@ -1,0 +1,98 @@
+{
+  "hero": {
+    "bgAlt": "Header dotted background",
+    "badge": "Technology • Marketing • Design • Infrastructure",
+    "title": {
+      "line1": "360 <highlight>Digital</highlight> Transformation",
+      "line2": "<highlight>AI</highlight> applied to business"
+    },
+    "description": "Take your business to the next level with AI and automation. At SoulMarket we design 360º digital solutions to save time, sell more and simplify your processes.",
+    "ctaPrimary": "Talk to an expert"
+  },
+  
+  "start": {
+    "badge": "Shall we start?",
+    "titleLine1": "Tell us your idea,",
+    "titleLine2": "We’ll make it happen.",
+    "bullet1": "Our team of experts will assess your needs and launch the perfect digital solution for your business. Forget complications—we work end-to-end so you get results ready to use.",
+    "cta": "Tell us about your project",
+    "requirements": {
+      "title": "Requirements\nGathering",
+      "desc": "We listen to your idea, understand your needs and define the goals together."
+    },
+    "devIntegration": {
+      "title": "Development & Integration",
+      "desc": "We build your project with the right technologies, integrating everything you need (ERP, CRM, payment gateways and more)."
+    },
+    "designPrototype": {
+      "title": "Design & Prototype",
+      "desc": "We show how your solution will look and work before development."
+    },
+    "handoff": {
+      "badge": "Turn-key delivery",
+      "desc": "We deliver a ready-to-use project with support and follow-up."
+    }
+  },
+  
+  "services": {
+    "tabs": {
+      "business": "Business & Processes",
+      "product": "Digital Product",
+      "branding": "Brand & Visibility",
+      "infrastructure": "Infrastructure"
+    },
+    "tab1": {
+      "badge": "We do it",
+      "title": "Digital <highlight>Transformation</highlight> & Automation",
+      "lead": "We take your business to the next level with AI, ERP and CRM, optimizing processes and reducing costs.",
+      "items": [
+        { "title": "ERP & CRM (Open Source or custom)", "desc": "Odoo, HubSpot, Zoho..." },
+        { "title": "Process & task automation", "desc": "n8n, Make, Zapier..." },
+        { "title": "AI applied to business", "desc": "Chatbots, image generation, data analysis..." },
+        { "title": "Tool & API integrations", "desc": "REST, SOAP, microservices..." }
+      ],
+      "cta": "Talk to our experts",
+      "imageAlt": "Automation illustration"
+    },
+    "tab2": {
+      "badge": "We also do this",
+      "title": "Web <amp>&</amp> App Development",
+      "lead": "We build websites and apps that perform: fast, secure and ready to scale with your business.",
+      "items": [
+        { "title": "Corporate & professional websites", "desc": "Vue, React, Angular, Python..." },
+        { "title": "E-commerce with payment gateways", "desc": "PrestaShop, Shopify, custom solutions..." },
+        { "title": "Mobile apps (iOS/Android)", "desc": "Native, Flutter, React Native..." },
+        { "title": "UX/UI & digital product", "desc": "User-centered design." }
+      ],
+      "cta": "Talk to an expert",
+      "imageAlt": "Software development illustration"
+    },
+    "tab3": {
+      "badge": "We speak for you",
+      "title": "Marketing <amp>&</amp> Communication",
+      "lead": "Creative and measurable strategies to attract customers and build your brand.",
+      "items": [
+        { "title": "Digital strategy & campaigns", "desc": "SEO, SEM, Ads" },
+        { "title": "Social media management", "desc": "Content, community, influencers..." },
+        { "title": "Graphic design online/offline", "desc": "Branding, logos, corporate identity..." },
+        { "title": "Video/photo production & editing", "desc": "Reels, spots, corporate videos..." }
+      ],
+      "cta": "Shall we talk?",
+      "imageAlt": "Communication & marketing illustration"
+    },
+    "tab4": {
+      "badge": "Want peace of mind?",
+      "title": "Infrastructure <amp>&</amp> Technical Support",
+      "lead": "We take care of the tech foundation so your business runs smoothly.",
+      "items": [
+        { "title": "Servers & enterprise networks", "desc": "Server, network and systems management." },
+        { "title": "Database management", "desc": "Creation, maintenance and optimization." },
+        { "title": "Advanced technical integrations", "desc": "APIs, connectivity and process automation." },
+        { "title": "Specialized support & maintenance", "desc": "Technical support and incident management." }
+      ],
+      "cta": "Tell us your idea",
+      "imageAlt": "Networks & infrastructure illustration"
+    }
+  }
+}
+

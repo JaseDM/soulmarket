@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "badge": "Let's talk",
+    "title": "Contact {brand}",
+    "description": "Tell us your idea, request support or ask for a demo. We'll get back to you as soon as possible."
+  },
+  "cards": {
+    "email": { "title": "Email" },
+    "phone": { "title": "Phone" },
+    "whatsapp": { "title": "WhatsApp" },
+    "hours": { "title": "Hours", "value": "Monday to Friday · 9:00–17:00" }
+  },
+  
+  "form": {
+    "title": "Send us a message",
+    "subtitle": "Fill out the form and we'll contact you shortly.",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "+1 555 000 0000"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@example.com"
+      },
+      "team": {
+        "label": "Area of interest",
+        "placeholder": "Select a team"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "How can we help?"
+      }
+    },
+    "options": {
+      "team": {
+        "6": "Technology (web, hosting, integrations)",
+        "4": "Marketing (communications & SEO/Ads)",
+        "5": "Audiovisual (photo & video)"
+      }
+    },
+    "privacy": {
+      "labelPrefix": "I have read and accept the",
+      "linkText": "privacy policy"
+    },
+    "infoLine": "We only use your data to reply to you.",
+    "actions": {
+      "submit": "Send",
+      "sending": "Sending…"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "email": "Please enter a valid email.",
+      "phone": "Please enter a valid phone number.",
+      "team": "Please select an area of interest."
+    },
+    "feedback": {
+      "success": "Thanks! Your message has been sent.",
+      "error": "Something went wrong. Please try again."
+    }
+  },
+  "tetris": {
+    "title": "Tetris",
+    "score": "Score",
+    "level": "Level",
+    "start": "Start",
+    "pause": "Pause",
+    "resume": "Resume",
+    "restart": "Restart",
+    "overlayStartTitle": "Tetris",
+    "overlayStartHint": "Press Start or Spacebar to play.",
+    "overlayGameOver": "Game Over!",
+    "controlsHint": "Controls: Start (button), ← → move, ↑ rotate, ↓ soft drop, Space hard drop."
+  }
+}

@@ -22,6 +22,7 @@ type TetrisProps = {
 type Cell = 0 | 1;
 type Matrix = Cell[][];
 type Point = { x: number; y: number };
+const colors = ["#0ea5e9", "#22c55e", "#f97316", "#a855f7", "#eab308", "#ef4444", "#14b8a6"];
 
 const PIECES: Matrix[] = [
   // I
@@ -62,14 +63,20 @@ const PIECES: Matrix[] = [
 
 function rotate(m: Matrix): Matrix {
   const rows = m.length;
-  const cols = m[0].length;
+  const cols = m[0]?.length ?? 0;
+  if (!rows || !cols) return m;
   const res: Matrix = Array.from({ length: cols }, () => Array(rows).fill(0) as Cell[]);
-  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) res[x][rows - 1 - y] = m[y][x];
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      res[x][rows - 1 - y] = m[y]?.[x] ?? 0;
+    }
+  }
   return res;
 }
 
 function randomPiece(): Matrix {
-  return JSON.parse(JSON.stringify(PIECES[Math.floor(Math.random() * PIECES.length)]));
+  const base = PIECES[Math.floor(Math.random() * PIECES.length)]!;
+  return base.map((row) => row.slice() as Cell[]);
 }
 
 export default function Tetris({
@@ -89,7 +96,10 @@ export default function Tetris({
     Array.from({ length: rows }, () => Array(cols).fill(0) as Cell[])
   );
   const [piece, setPiece] = useState<Matrix>(randomPiece);
-  const [pos, setPos] = useState<Point>({ x: Math.floor(cols / 2) - 1, y: 0 });
+  const [pos, setPos] = useState<Point>(() => ({
+    x: Math.floor(cols / 2) - Math.ceil((piece[0]?.length ?? 1) / 2),
+    y: 0
+  }));
   const [score, setScore] = useState(0);
   const pointsPerLevel = 200; // sube un nivel cada 200 puntos
   const level = Math.floor(score / pointsPerLevel);
@@ -98,8 +108,7 @@ export default function Tetris({
   const [gameOver, setGameOver] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const colors = ["#0ea5e9", "#22c55e", "#f97316", "#a855f7", "#eab308", "#ef4444", "#14b8a6"];
-
+  
   const collide = useCallback(
     (g: Matrix, p: Matrix, o: Point) => {
       for (let y = 0; y < p.length; y++) {
@@ -186,8 +195,18 @@ export default function Tetris({
   // Keyboard controls
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (!hasStarted) return;
+      // Permitir iniciar con Space
+      if (!hasStarted) {
+        if (e.key === " " || e.code === "Space") {
+          e.preventDefault();
+          setHasStarted(true);
+          setRunning(true);
+        }
+        return;
+      }
+
       if (gameOver) return;
+
       if (e.key === " " || e.code === "Space") {
         e.preventDefault();
         hardDrop();
@@ -236,7 +255,9 @@ export default function Tetris({
     }
 
     // Draw current piece (color by shape index)
-    const idx = PIECES.findIndex((p) => p[0].length === piece[0].length && p.length === piece.length);
+    const idx = PIECES.findIndex(
+      (p) => (p[0]?.length ?? 0) === (piece[0]?.length ?? 0) && p.length === piece.length
+    );    
     const color = colors[(idx >= 0 ? idx : 0) % colors.length];
     ctx.fillStyle = color;
     for (let y = 0; y < piece.length; y++) {
@@ -264,9 +285,11 @@ export default function Tetris({
   }, [grid, piece, pos, width, height, rows, cols, block]);
 
   const reset = () => {
-    setGrid(Array.from({ length: rows }, () => Array(cols).fill(0) as Cell[]));
-    setPiece(randomPiece());
-    setPos({ x: Math.floor(cols / 2) - 1, y: 0 });
+    const empty = Array.from({ length: rows }, () => Array(cols).fill(0) as Cell[]);
+    const np = randomPiece();
+    setGrid(empty);
+    setPiece(np);
+    setPos({ x: Math.floor(cols / 2) - Math.ceil((np[0]?.length ?? 1) / 2), y: 0 });
     setScore(0);
     setGameOver(false);
     setHasStarted(false);
