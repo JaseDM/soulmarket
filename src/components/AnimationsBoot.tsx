@@ -1,23 +1,34 @@
-"use client";
+'use client';
 
-import {useEffect} from "react";
-import {useLocale} from "next-intl";
-import {usePathname} from "next/navigation";
+import {useEffect} from 'react';
+import {useLocale} from 'next-intl';
+import {usePathname} from 'next/navigation';
 
-import {initCommonAnimations} from "@/lib/common/common";
-import {initRevealElements} from "@/lib/common/reveal-elements";
-import {initGradientPathAnimation} from "@/lib/animations/gradient-path";
-import {initMarqueeAnimations} from "@/lib/animations/marquee";
-import {initTabFilter} from "@/lib/animations/tab-filter";
-import {initSwiper} from "@/lib/animations/swiper";
+import {initCommonAnimations} from '@/lib/common/common';
+import {initRevealElements} from '@/lib/common/reveal-elements';
+import {initGradientPathAnimation} from '@/lib/animations/gradient-path';
+import {initMarqueeAnimations} from '@/lib/animations/marquee';
+import {initTabFilter} from '@/lib/animations/tab-filter';
+import {initSwiper} from '@/lib/animations/swiper';
 
 type Cleanup = () => void;
 
-/** Tipo mínimo para usar ScrollTrigger sin `any` */
-type MinimalScrollTrigger = {
-  getAll(): Array<{ kill(): void }>;
-  refresh(): void;
-};
+// Tipos mínimos para no depender de tipos de GSAP
+type ScrollTriggerLike = { kill: () => void };
+interface ScrollTriggerNS {
+  getAll: () => ScrollTriggerLike[];
+  refresh: () => void;
+}
+
+async function loadScrollTrigger(): Promise<ScrollTriggerNS | null> {
+  try {
+
+    const mod = await import('gsap/ScrollTrigger');
+    return (mod.ScrollTrigger ?? mod.default) as ScrollTriggerNS;
+  } catch {
+    return null;
+  }
+}
 
 export default function AnimationsBoot() {
   const locale = useLocale();
@@ -27,24 +38,21 @@ export default function AnimationsBoot() {
     const cleanups: Cleanup[] = [];
 
     (async () => {
-      // 0) KILL + RESET: tweens, triggers y estilos inline “pegados”
       try {
-        const {default: gsap} = await import("gsap");
-        gsap.killTweensOf("*");
+        const {default: gsap} = await import('gsap');
+        gsap.killTweensOf('*');
 
-        const stMod = await import("gsap/ScrollTrigger").catch(() => null);
-        const ScrollTrigger: MinimalScrollTrigger | null =
-          ((stMod as unknown as { ScrollTrigger?: MinimalScrollTrigger; default?: MinimalScrollTrigger })?.ScrollTrigger) ??
-          ((stMod as unknown as { ScrollTrigger?: MinimalScrollTrigger; default?: MinimalScrollTrigger })?.default) ??
-          null;
+        const ScrollTrigger = await loadScrollTrigger();
 
-        // limpia estilos inline que pueden dejar contenido borroso/invisible
-        const toReset = document.querySelectorAll<HTMLElement>("[data-ns-animate], [data-hero-line]");
+        // Limpia estilos inline que pueden quedar de animaciones previas
+        const toReset = document.querySelectorAll<HTMLElement>(
+          '[data-ns-animate], [data-hero-line]'
+        );
         toReset.forEach((el) => {
-          el.style.removeProperty("filter");
-          el.style.removeProperty("opacity");
-          el.style.removeProperty("transform");
-          el.style.removeProperty("height");
+          el.style.removeProperty('filter');
+          el.style.removeProperty('opacity');
+          el.style.removeProperty('transform');
+          el.style.removeProperty('height');
         });
 
         if (ScrollTrigger) {
@@ -54,53 +62,61 @@ export default function AnimationsBoot() {
         // noop
       }
 
-      // 1) INIT: vuelve a montar todas tus animaciones
-      try { const off = initCommonAnimations(); if (typeof off === "function") cleanups.push(off); } catch {}
-      try { const off = initRevealElements(); if (typeof off === "function") cleanups.push(off); } catch {}
-      try { const off = initGradientPathAnimation(); if (typeof off === "function") cleanups.push(off); } catch {}
-      try { const off = initMarqueeAnimations(); if (typeof off === "function") cleanups.push(off); } catch {}
-      try { const off = initTabFilter(); if (typeof off === "function") cleanups.push(off); } catch {}
-      try { const off = initSwiper(); if (typeof off === "function") cleanups.push(off); } catch {}
+      // Inicializa animaciones
+      try { cleanups.push(initCommonAnimations()); } catch {}
+      try { cleanups.push(initRevealElements()); } catch {}
+      try { cleanups.push(initGradientPathAnimation()); } catch {}
+      try { cleanups.push(initMarqueeAnimations()); } catch {}
+      try { cleanups.push(initTabFilter()); } catch {}
+      try { cleanups.push(initSwiper()); } catch {}
 
-      // 2) REFRESH: mide de nuevo tras pintar (textos cambian alto)
+      // Refresh tras primer paint
       try {
-        const stMod = await import("gsap/ScrollTrigger").catch(() => null);
-        const ScrollTrigger: MinimalScrollTrigger | null =
-          ((stMod as unknown as { ScrollTrigger?: MinimalScrollTrigger; default?: MinimalScrollTrigger })?.ScrollTrigger) ??
-          ((stMod as unknown as { ScrollTrigger?: MinimalScrollTrigger; default?: MinimalScrollTrigger })?.default) ??
-          null;
-
+        const ScrollTrigger = await loadScrollTrigger();
         if (ScrollTrigger) {
           requestAnimationFrame(() => {
             try { ScrollTrigger.refresh(); } catch {}
           });
         }
-      } catch {
-        // noop
-      }
+      } catch {}
     })();
 
-    // Cleanup al salir o volver a cambiar
     return () => {
+      // Ejecuta cleanups registrados
       for (const off of cleanups) {
         try { off(); } catch {}
       }
+      // Mata triggers que queden vivos
       (async () => {
-        try {
-          const stMod = await import("gsap/ScrollTrigger").catch(() => null);
-          const ScrollTrigger: MinimalScrollTrigger | null =
-            ((stMod as unknown as { ScrollTrigger?: MinimalScrollTrigger; default?: MinimalScrollTrigger })?.ScrollTrigger) ??
-            ((stMod as unknown as { ScrollTrigger?: MinimalScrollTrigger; default?: MinimalScrollTrigger })?.default) ??
-            null;
-          if (ScrollTrigger) {
+        const ScrollTrigger = await loadScrollTrigger();
+        if (ScrollTrigger) {
+          try {
             ScrollTrigger.getAll().forEach((t) => t.kill());
-          }
-        } catch {
-          // noop
+          } catch {}
         }
       })();
     };
   }, [locale, pathname]);
+
+  // Soporte para refrescos suaves desde otros componentes (portfolio filters, etc.)
+  useEffect(() => {
+    const onSoftRefresh = async () => {
+      try {
+        const mod = await import('@/lib/common/reveal-elements').catch(() => null);
+        mod?.initRevealElements?.();
+
+        const ScrollTrigger = await loadScrollTrigger();
+        ScrollTrigger?.refresh();
+      } catch {
+        document
+          .querySelectorAll<HTMLElement>('[data-ns-animate]')
+          .forEach((el) => el.style.removeProperty('opacity'));
+      }
+    };
+
+    window.addEventListener('animations:refresh', onSoftRefresh);
+    return () => window.removeEventListener('animations:refresh', onSoftRefresh);
+  }, []);
 
   return null;
 }

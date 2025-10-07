@@ -1,8 +1,9 @@
 import {setRequestLocale} from 'next-intl/server'
 import {createTranslator} from 'next-intl'
 import type {AbstractIntlMessages} from 'next-intl'
-import ContactForm, { type ContactFormI18n }  from './ContactForm'
+import ContactForm, {type ContactFormI18n} from './ContactForm'
 import Tetris from '@/components/interactive/Tetris'
+import Image from 'next/image'
 
 export default async function ContactPage({
   params
@@ -10,7 +11,7 @@ export default async function ContactPage({
   const {locale} = await params
   setRequestLocale(locale)
 
-  // Carga SOLO los mensajes de esta página
+  // Carga SOLO los mensajes de esta página (no cambiamos claves)
   const messages = (await import(`@/locales/${locale}/Contact.json`))
     .default as AbstractIntlMessages
 
@@ -23,79 +24,146 @@ export default async function ContactPage({
   const brand = 'SoulMarket'
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white text-slate-800 transition-colors dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 dark:text-slate-100">
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+    <main className="relative min-h-screen bg-background-3 dark:bg-background-5 text-stroke-9 dark:text-stroke-1">
+      {/* === HERO (mismo patrón que About) =============================== */}
+      <section
+        /* sin data-ns-animate aquí */
+        data-offset="0"
+        className="relative overflow-hidden pt-[160px] pb-16 lg:pb-[100px]"
+      >
+        {/* Líneas verticales del hero (sin animar) */}
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(14,165,233,.15),transparent)] dark:bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(56,189,248,.18),transparent)]"
-        />
-        <div className="mx-auto w-full max-w-6xl px-6 py-20 md:py-28">
-          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-700 dark:text-cyan-300 dark:border-cyan-400/30 dark:bg-cyan-400/10">
-            <SparkleIcon className="h-3.5 w-3.5" />
-            {t('hero.badge')}
-          </span>
-          <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl">
-            {t('hero.title', {brand})}
-          </h1>
-          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-300">
-            {t('hero.description')}
-          </p>
+          className="absolute -z-0 left-1/2 -translate-x-1/2 top-5 h-full main-container flex justify-between gap-[239px] pointer-events-none"
+          aria-hidden="true"
+        >
+          {Array.from({length: 6}).map((_, i) => (
+            <div
+              key={i}
+              data-hero-line
+              data-instant="true"
+              className="w-px bg-gradient-to-b from-stroke-1 to-stroke-1/30 dark:from-stroke-5 dark:to-stroke-5/30 h-0"
+            />
+          ))}
         </div>
-      </section>
 
-      {/* TARJETAS */}
-      <section className="mx-auto w-full max-w-6xl px-6">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-stretch">
-          <ContactCard
-            title={t('cards.email.title')}
-            value="info@soulmarket.es"
-            href="mailto:info@soulmarket.es"
-            icon={<MailIcon className="h-6 w-6" />}
-            gradient="from-cyan-500 via-fuchsia-500 to-indigo-500"
-          />
-          <ContactCard
-            title={t('cards.phone.title')}
-            value="+34 625 030 452"
-            href="tel:+34625030452"
-            icon={<PhoneIcon className="h-6 w-6" />}
-            gradient="from-emerald-500 via-cyan-500 to-blue-500"
-          />
-          <ContactCard
-            title={t('cards.whatsapp.title')}
-            value="+34 625 030 452"
-            href="https://wa.me/34625030452"
-            icon={<WhatsappIcon className="h-6 w-6" />}
-            gradient="from-lime-500 via-emerald-500 to-cyan-500"
-          />
-          <ContactCard
-            title={t('cards.hours.title')}
-            value={t('cards.hours.value')}
-            href="#form"
-            icon={<ClockIcon className="h-6 w-6" />}
-            gradient="from-violet-500 via-fuchsia-500 to-rose-500"
-          />
-        </div>
-      </section>
+  {/* BG dots sutil (SIN data-ns-animate) */}
+  <div
+    className="absolute z-0 pointer-events-none top-[10%] left-1/2 -translate-x-1/2 w-[698px] h-[235px] opacity-80"
+    aria-hidden
+  >
+    <Image
+      src="/images/gradient/hero-dot-bg.png"
+      alt=""
+      fill
+      priority
+      className="object-cover"
+    />
+  </div>
 
-      {/* FORM + INFO */}
-      <section className="mx-auto w-full max-w-6xl px-6 py-16">
+  {/* Contenido hero (solo estos hijos animan) */}
+  <div className="main-container relative z-10 text-center max-w-3xl mx-auto">
+    <span
+      className="badge badge-green mb-5 opacity-0 blur-[3px]"
+      data-ns-animate
+      data-delay="0.05"
+    >
+      {t('hero.badge')}
+    </span>
+
+    <h1
+      className="font-medium mb-4 opacity-0 blur-[3px]"
+      data-ns-animate
+      data-delay="0.10"
+    >
+      {t('hero.title', {brand})}
+    </h1>
+
+    <p
+      className="text-lg opacity-0 blur-[3px]"
+      data-ns-animate
+      data-delay="0.15"
+    >
+      {t('hero.description')}
+    </p>
+  </div>
+</section>
+
+      <section className="main-container py-10">
+  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-stretch">
+    {[
+      {
+        title: t('cards.email.title'),
+        value: 'info@soulmarket.es',
+        href: 'mailto:info@soulmarket.es',
+        icon: <MailIcon className="h-6 w-6" />,
+        gradient: 'from-cyan-500 via-fuchsia-500 to-indigo-500'
+      },
+      {
+        title: t('cards.phone.title'),
+        value: '+34 625 030 452',
+        href: 'tel:+34625030452',
+        icon: <PhoneIcon className="h-6 w-6" />,
+        gradient: 'from-emerald-500 via-cyan-500 to-blue-500'
+      },
+      {
+        title: t('cards.whatsapp.title'),
+        value: '+34 625 030 452',
+        href: 'https://wa.me/34625030452',
+        icon: <WhatsappIcon className="h-6 w-6" />,
+        gradient: 'from-lime-500 via-emerald-500 to-cyan-500'
+      },
+      {
+        title: t('cards.hours.title'),
+        value: t('cards.hours.value'),
+        href: '#form',
+        icon: <ClockIcon className="h-6 w-6" />,
+        gradient: 'from-violet-500 via-fuchsia-500 to-rose-500'
+      }
+    ].map((cfg, i) => (
+      <ContactCard key={cfg.title} {...cfg} delay={0.05 + i * 0.05} />
+    ))}
+  </div>
+</section>
+
+      {/* === FORM + LATERAL (paneles a juego con About) ================== */}
+      <section className="main-container py-16">
         <div className="grid items-start gap-10 lg:grid-cols-2">
           {/* FORM */}
           <div id="form" className="relative">
-            <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-tr from-cyan-500/20 via-indigo-500/15 to-fuchsia-500/15 blur-lg dark:from-cyan-500/30 dark:via-indigo-500/20 dark:to-fuchsia-500/20" />
-            <div className="relative rounded-2xl border border-slate-200/70 bg-white/70 p-6 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/60">
-              <h2 className="text-2xl font-bold">{t('form.title')}</h2>
-              <p className="mt-1 mb-6 text-sm text-slate-600 dark:text-slate-300">
+            {/* halo */}
+            <div
+              className="absolute -inset-0.5 rounded-3xl bg-gradient-to-tr from-primary-500/20 via-primary-400/15 to-fuchsia-500/15 blur-xl dark:from-primary-500/30 dark:via-primary-400/25 dark:to-fuchsia-500/20"
+              aria-hidden
+            />
+            <div
+              className="relative rounded-3xl border border-stroke-4 dark:border-background-5 bg-white/70 dark:bg-background-7/60 p-6 lg:p-8 shadow-xl backdrop-blur"
+              data-ns-animate
+              data-direction="up"
+              data-offset="60"
+            >
+              <h2 className="text-2xl font-bold opacity-0 blur-[3px]" data-ns-animate data-delay="0.05">
+                {t('form.title')}
+              </h2>
+              <p className="mt-1 mb-6 text-sm opacity-70 opacity-0 blur-[3px]" data-ns-animate data-delay="0.1">
                 {t('form.subtitle')}
               </p>
+
+              {/* Pasamos solo el subárbol del formulario como i18n (sin tocar claves) */}
               <ContactForm i18n={messages.form as ContactFormI18n} />
             </div>
           </div>
 
-          {/* INFO / MAPA / DEMO */}
-          <div className="space-y-6">
-            <Tetris />
+          {/* LATERAL: demo/Mapa/widget */}
+          <div
+            className="rounded-3xl border border-stroke-4 dark:border-background-5 bg-white/70 dark:bg-background-7/60 p-6 lg:p-8 backdrop-blur"
+            data-ns-animate
+            data-direction="up"
+            data-delay="0.1"
+            data-offset="60"
+          >
+            <div className="rounded-2xl overflow-hidden opacity-0 blur-[3px]" data-ns-animate data-delay="0.15">
+              <Tetris />
+            </div>
           </div>
         </div>
       </section>
@@ -103,51 +171,58 @@ export default async function ContactPage({
   )
 }
 
-/* ---------- UI helpers ---------- */
+/* ============ Tarjeta de contacto (UI helper alineado a About) ======= */
 function ContactCard({
   title,
   value,
   href,
   icon,
-  gradient
+  gradient,
+  delay = 0
 }: {
   title: string
   value: string
   href?: string
   icon: React.ReactNode
   gradient: string
+  delay?: number
 }) {
   type CSSVars = React.CSSProperties & {['--gbg']?: string}
   const style: CSSVars = {['--gbg']: gradient}
 
-  const card = (
-    <div className="gradient-border h-full" style={style}>
-      <div className="relative z-[1] flex h-full flex-col justify-between overflow-hidden rounded-[calc(1rem-1px)] border border-slate-200/70 bg-white/70 p-6 shadow-sm backdrop-blur-md transition hover:border-cyan-500/40 dark:border-white/10 dark:bg-slate-900/60">
+  const inner = (
+    <div
+      className="gradient-border h-full opacity-0 blur-[3px]"
+      style={style}
+      data-ns-animate
+      data-direction="up"
+      data-offset="30"
+      data-delay={delay}
+    >
+      <div className="relative z-[1] flex h-full flex-col justify-between overflow-hidden rounded-[calc(1rem-1px)] border border-stroke-4 dark:border-background-5 bg-white/70 dark:bg-background-7/60 p-6 shadow-sm backdrop-blur transition hover:border-primary-500/30">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br from-white/20 to-transparent blur-2xl opacity-60 transition-opacity duration-300 group-hover:opacity-100"
+          className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br from-white/20 to-transparent blur-2xl opacity-60"
         />
         <div className="relative">
-          <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-cyan-700 ring-1 ring-inset ring-slate-200 dark:bg-white/5 dark:text-cyan-300 dark:ring-white/10">
+          <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-background-2 text-primary-600 ring-1 ring-inset ring-stroke-3 dark:bg-background-8 dark:text-primary-300 dark:ring-background-5">
             {icon}
           </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400">{title}</div>
+          <div className="text-sm opacity-70">{title}</div>
         </div>
-        <div className="mt-4 text-lg font-semibold text-slate-800 dark:text-slate-100">{value}</div>
+        <div className="mt-4 text-lg font-semibold">{value}</div>
       </div>
     </div>
   )
 
   return href ? (
-    <a href={href} className="group block h-full">
-      {card}
-    </a>
+    <a href={href} className="group block h-full">{inner}</a>
   ) : (
-    <div className="group block h-full">{card}</div>
+    <div className="group block h-full">{inner}</div>
   )
 }
 
-
+/* ============ Iconos ============ */
 function MailIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
@@ -181,13 +256,6 @@ function ClockIcon(props: React.SVGProps<SVGSVGElement>) {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
       <circle cx="12" cy="12" r="9" strokeWidth="1.8" />
       <path d="M12 7v5l3 2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
-      <path d="M12 2l2.2 5.4L20 9.6l-5.2 2.2L12 17l-2.8-5.2L4 9.6l5.8-2.2L12 2z" />
     </svg>
   )
 }

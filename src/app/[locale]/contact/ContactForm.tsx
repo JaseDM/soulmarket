@@ -166,7 +166,7 @@ export default function ContactForm({ i18n }: Props) {
           {i18n.privacy.labelPrefix}{" "}
           <a
             href="/privacy"
-            className="font-semibold text-cyan-700 underline decoration-cyan-400/40 underline-offset-2 hover:text-cyan-600 dark:text-cyan-300 dark:hover:text-cyan-200"
+            className="font-semibold text-primary-800 underline text-primary-500/40 underline-offset-2 hover:text-primary-600 dark:text-primary-300 dark:hover:text-primary-200"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -181,7 +181,7 @@ export default function ContactForm({ i18n }: Props) {
         <button
           type="submit"
           disabled={state.status === "submitting"}
-          className="inline-flex items-center gap-2 rounded-lg bg-cyan-600 px-4 py-2 font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-cyan-500 dark:hover:bg-cyan-400"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 font-semibold text-white shadow-lg shadow-primary-500/20 transition hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-primary-500 dark:hover:bg-primary-400"
         >
           {state.status === "submitting" ? (
             <>

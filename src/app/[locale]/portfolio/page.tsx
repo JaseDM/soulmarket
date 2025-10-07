@@ -1,95 +1,119 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import {setRequestLocale} from 'next-intl/server'
-import {createTranslator} from 'next-intl'
+import type {Metadata} from 'next'
+import {Link} from '@/i18n/navigation'
+import PortfolioGrid from './_components/PortfolioGrid'
 
-type Project = {
-  id: string
-  title: string
-  category: 'web' | 'ecommerce' | 'automation' | 'brand' | 'video'
-  image: string
+type PortfolioMessages = {
+  metaTitle: string
+  hero: {badge: string; title: string; subtitle: string; ctaPrimary?: string; ctaSecondary?: string}
+  filter: {all: string; web: string; design: string; media: string}
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{locale: string}>
+}): Promise<Metadata> {
+  const {locale} = await params
+  const messages = (await import(`@/locales/${locale}/Portfolio.json`)).default as PortfolioMessages
+  return {title: messages.metaTitle}
 }
 
 export default async function PortfolioPage({
   params
-}: {params: Promise<{locale: string}>}) {
+}: {
+  params: Promise<{locale: string}>
+}) {
   const {locale} = await params
   setRequestLocale(locale)
 
-  // Carga de locales por página
-  const messages = (await import(`@/locales/${locale}/Portfolio.json`)).default as {
-    title: string
-    intro: string
-    filters: Record<string, string>
-    grid: {empty: string}
-    projects: Project[]
-  }
+  // Cargamos locales y traductor (mismo patrón que About)
+  const messages = (await import(`@/locales/${locale}/Portfolio.json`))
+    .default as PortfolioMessages
 
-  const t = await createTranslator({
-    locale,
-    messages: {Portfolio: messages},
-    namespace: 'Portfolio' as const
-  })
 
-  const projects = messages.projects
+  const {hero, filter} = messages
 
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-10">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl">
-            {t('title')}
-          </h1>
-          <p className="mt-3 max-w-3xl text-neutral-600 dark:text-neutral-300">
-            {t('intro')}
-          </p>
+    <main className="relative min-h-screen bg-background-3 dark:bg-background-5 text-stroke-9 dark:text-stroke-1">
+      {/* === HERO =================================================== */}
+      <section
+        data-ns-animate
+        data-offset="0"
+        className="relative overflow-hidden pt-[160px] pb-16 lg:pb-[100px]"
+      >
+        {/* BG líneas del hero (igual que About) */}
+        <div
+          className="absolute -z-0 left-[50%] -translate-x-1/2 top-5 h-full main-container flex justify-between gap-[239px] pointer-events-none"
+          aria-hidden="true"
+        >
+          {Array.from({length: 6}).map((_, i) => (
+            <div
+              key={i}
+              data-hero-line
+              className="w-px bg-gradient-to-b from-stroke-1 to-stroke-1/30 dark:from-stroke-5 dark:to-stroke-5/30 h-0"
+            />
+          ))}
         </div>
-      </section>
 
-      {/* Grid de proyectos */}
-      <section className="relative border-t border-neutral-200 py-12 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4">
-          {projects.length === 0 ? (
-            <p className="text-neutral-600 dark:text-neutral-400">{t('grid.empty')}</p>
-          ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {projects.map((p) => (
-                <article
-                  key={p.id}
-                  className="group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
-                >
-                  <div className="relative aspect-[16/10]">
-                    <Image
-                      src={p.image}
-                      alt={p.title}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="mb-1 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-                      {t(`filters.${p.category}` as const)}
-                    </div>
-                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-                      {p.title}
-                    </h3>
-                    <div className="mt-4">
-                      <Link
-                        href="/contact"
-                        className="inline-flex items-center justify-center rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-700"
-                      >
-                        Contactar
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              ))}
+        <div className="main-container relative z-10 text-center max-w-3xl mx-auto">
+          <span className="badge badge-green mb-5 opacity-0" data-ns-animate data-delay="0.05">
+            {hero.badge}
+          </span>
+
+          <h1 className="font-medium mb-4 opacity-0" data-ns-animate data-delay="0.1">
+            {hero.title}
+          </h1>
+
+          <p className="text-lg opacity-0" data-ns-animate data-delay="0.2">
+            {hero.subtitle}
+          </p>
+
+          {(hero.ctaPrimary || hero.ctaSecondary) && (
+            <div
+              className="mt-8 flex items-center justify-center gap-3 opacity-0"
+              data-ns-animate
+              data-delay="0.3"
+              data-direction="left"
+              data-offset="40"
+            >
+              {hero.ctaPrimary && (
+                <Link href="/contact" className="btn btn-primary btn-lg">
+                  <span>{hero.ctaPrimary}</span>
+                </Link>
+              )}
+              {hero.ctaSecondary && (
+                <Link href="/services" className="btn btn-outline btn-lg">
+                  <span>{hero.ctaSecondary}</span>
+                </Link>
+              )}
             </div>
           )}
         </div>
       </section>
+
+      {/* === GRID + FILTROS (misma estética de tarjetas/containers) == */}
+      <section className="main-container py-14">
+        {/* El componente ya dibuja barra de filtros y grid;
+            Lo envolvemos con el mismo patrón de animación/espaciados */}
+        <div
+          className="rounded-3xl border border-stroke-4 dark:border-background-5 bg-white/70 dark:bg-background-7/60 p-4 md:p-6 lg:p-8 backdrop-blur"
+          data-ns-animate
+          data-direction="up"
+          data-offset="40"
+        >
+          <PortfolioGrid
+            labels={{
+              all: filter.all,
+              web: filter.web,
+              design: filter.design,
+              media: filter.media
+            }}
+            initialCategory="all"
+          />
+        </div>
+      </section>
+      
     </main>
   )
 }

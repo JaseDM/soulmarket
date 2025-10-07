@@ -1,262 +1,188 @@
-import {setRequestLocale} from 'next-intl/server'
-import {createTranslator} from 'next-intl'
 import type {Metadata} from 'next'
+import {setRequestLocale} from 'next-intl/server'
 import {Link} from '@/i18n/navigation'
-import {notFound} from 'next/navigation'
 
-// ===== Tipos de datos que refleja tu Services.json =====
-type ServiceItem = {
-  tag?: string
-  title: string
-  desc: string
-  bullets?: string[]
-}
-
-type OfferItem = {title: string; desc: string}
-type StepItem = {title: string; desc: string}
-type PricingCard = {
+type Tier = {
+  id: 'web' | 'web_marketing' | 'web_marketing_content'
   name: string
   price: string
   period: string
   features: string[]
   highlight?: boolean
 }
-type QAItem = {q: string; a: string}
 
-type Sections = {
-  services: {
+type ServicesMessages = {
+  metaTitle: string
+  hero: {
+    badge: string
     title: string
     subtitle: string
-    items: ServiceItem[]
-  }
-  offerings: {
-    title: string
-    items: OfferItem[]
-  }
-  process: {
-    title: string
-    steps: StepItem[]
+    ctaPrimary: string
+    ctaSecondary: string
   }
   pricing: {
     title: string
     note: string
-    cards: PricingCard[]
     disclaimer: string
-  }
-  faqs: {
-    title: string
-    items: QAItem[]
+    cta: string
+    tiers: Tier[]
   }
 }
 
-type CTA = {
-  title: string
-  desc: string
-  primary: string
-  secondary: string
-}
-
-export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{locale: string}>
+}): Promise<Metadata> {
   const {locale} = await params
-  const messages = (await import(`@/locales/${locale}/Services.json`)).default
-  return {title: messages?.metaTitle ?? 'Services'}
+  const messages = (await import(`@/locales/${locale}/Services.json`))
+    .default as ServicesMessages
+  return {title: messages.metaTitle}
 }
 
-export default async function ServicesPage({params}: {params: Promise<{locale: string}>}) {
+export default async function ServicesPage({
+  params
+}: {
+  params: Promise<{locale: string}>
+}) {
   const {locale} = await params
   setRequestLocale(locale)
 
-  const messages = (await import(`@/locales/${locale}/Services.json`)).default
-  if (!messages) return notFound()
+  const messages = (await import(`@/locales/${locale}/Services.json`))
+    .default as ServicesMessages
 
-  const t = await createTranslator({
-    locale,
-    messages: {Services: messages},
-    namespace: 'Services' as const
-  })
+ 
 
-  // Strings sueltos
-  const heroBadge = t('heroBadge')
-  const heroTitle = t('heroTitle')
-  const heroSub = t('heroSub')
-  const ctaPrimary = t('ctaPrimary')
-
-  // Estructuras complejas (objetos/arrays) — usar t.raw()
-  const sections = t.raw('sections') as Sections
-  const cta = t.raw('cta') as CTA
+  const {hero, pricing} = messages
 
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-10">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <div className="mb-4 flex gap-2">
-            <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium border-neutral-300 bg-white/60 text-neutral-700 dark:border-neutral-700 dark:bg-neutral-800/60 dark:text-neutral-200">
-              {heroBadge}
-            </span>
-          </div>
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl">{heroTitle}</h1>
-          <p className="mt-4 max-w-3xl text-lg text-neutral-600 dark:text-neutral-300">{heroSub}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-lg bg-fuchsia-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 dark:focus:ring-fuchsia-700"
-            >
-              {ctaPrimary}
+    <main className="min-h-screen bg-background-3 dark:bg-background-5 text-stroke-9 dark:text-stroke-1">
+      {/* === HERO =================================================== */}
+      <section
+        data-ns-animate
+        data-offset="0"
+        className="relative overflow-hidden pt-[160px] pb-12"
+      >
+        {/* Líneas de fondo como en About */}
+        <div
+          className="absolute -z-0 left-1/2 -translate-x-1/2 top-5 h-full main-container flex justify-between gap-[239px] pointer-events-none"
+          aria-hidden="true"
+        >
+          {Array.from({length: 6}).map((_, i) => (
+            <div
+              key={i}
+              data-hero-line
+              className="w-px bg-gradient-to-b from-stroke-1 to-stroke-1/30 dark:from-stroke-5 dark:to-stroke-5/30 h-0"
+            />
+          ))}
+        </div>
+
+        <div className="main-container relative z-10 text-center max-w-3xl mx-auto">
+          <span
+            className="badge badge-green mb-5 opacity-0"
+            data-ns-animate
+            data-delay="0.05"
+          >
+            {hero.badge}
+          </span>
+
+          <h1
+            className="font-medium mb-4 opacity-0"
+            data-ns-animate
+            data-delay="0.1"
+          >
+            {hero.title}
+          </h1>
+
+          <p
+            className="text-lg opacity-0"
+            data-ns-animate
+            data-delay="0.2"
+          >
+            {hero.subtitle}
+          </p>
+
+          <div
+            className="mt-8 flex items-center justify-center gap-3 opacity-0"
+            data-ns-animate
+            data-delay="0.3"
+            data-direction="left"
+            data-offset="40"
+          >
+            <Link href="/contact" className="btn btn-primary btn-lg">
+              <span>{hero.ctaPrimary}</span>
+            </Link>
+            <Link href="/portfolio" className="btn btn-outline btn-lg">
+              <span>{hero.ctaSecondary}</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Services */}
-      <section className="relative border-t border-neutral-200 py-12 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold sm:text-3xl">{sections.services.title}</h2>
-            <p className="mt-2 text-neutral-600 dark:text-neutral-300">{sections.services.subtitle}</p>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {sections.services.items.map((it: ServiceItem, i: number) => (
-              <div
-                key={i}
-                className="group rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
-              >
-                {it.tag ? (
-                  <div className="mb-2 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-                    {it.tag}
-                  </div>
-                ) : null}
-                <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">{it.title}</h3>
-                <p className="mt-2 text-neutral-600 dark:text-neutral-300">{it.desc}</p>
-                {it.bullets?.length ? (
-                  <ul className="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-200 list-disc pl-5">
-                    {it.bullets.map((b: string, j: number) => (
-                      <li key={j}>{b}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* === PRICING =============================================== */}
+      <section className="relative border-t border-stroke-4 dark:border-background-5 py-12">
+        <div className="main-container">
+          <header className="mb-8 text-center max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-semibold" data-ns-animate>
+              {pricing.title}
+            </h2>
+            <p
+              className="mt-2 opacity-80"
+              data-ns-animate
+              data-delay="0.05"
+            >
+              {pricing.note}
+            </p>
+          </header>
 
-      {/* Offerings */}
-      <section className="relative border-t border-neutral-200 py-12 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4">
-          <h2 className="text-2xl font-bold sm:text-3xl">{sections.offerings.title}</h2>
-          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {sections.offerings.items.map((it: OfferItem, i: number) => (
-              <div
-                key={i}
-                className="rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
-              >
-                <div className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">{it.title}</div>
-                <p className="mt-2 text-neutral-600 dark:text-neutral-300">{it.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="relative border-t border-neutral-200 py-12 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4">
-          <h2 className="text-2xl font-bold sm:text-3xl">{sections.process.title}</h2>
-          <ol className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {sections.process.steps.map((s: StepItem, i: number) => (
-              <li
-                key={i}
-                className="rounded-xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900"
-              >
-                <div className="text-sm font-semibold text-neutral-900 dark:text-neutral-50">{s.title}</div>
-                <div className="text-neutral-600 dark:text-neutral-300">{s.desc}</div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section className="relative border-t border-neutral-200 py-12 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold sm:text-3xl">{sections.pricing.title}</h2>
-            <p className="mt-2 text-neutral-600 dark:text-neutral-300">{sections.pricing.note}</p>
-          </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {sections.pricing.cards.map((c: PricingCard, i: number) => (
-              <div
-                key={i}
-                className={
-                  'rounded-2xl border p-6 shadow-sm bg-white dark:bg-neutral-900 ' +
-                  (c.highlight
+            {pricing.tiers.map((tier, i) => (
+              <article
+                key={tier.id}
+                className={[
+                  'rounded-2xl border p-6 shadow-sm bg-white/70 dark:bg-background-7/60 backdrop-blur',
+                  tier.highlight
                     ? 'border-fuchsia-300 ring-2 ring-fuchsia-300/50 dark:border-fuchsia-600 dark:ring-fuchsia-600/40'
-                    : 'border-neutral-200 dark:border-neutral-800')
-                }
+                    : 'border-stroke-4 dark:border-background-5'
+                ].join(' ')}
+                data-ns-animate
+                data-delay={0.05 + i * 0.05}
+                data-direction={i === 1 ? 'up' : i === 0 ? 'left' : 'right'}
+                data-offset="40"
               >
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">{c.name}</h3>
-                <div className="mt-4 text-3xl font-bold text-neutral-900 dark:text-neutral-50">{c.price}</div>
-                <div className="text-sm text-neutral-500 dark:text-neutral-400">{c.period}</div>
-                <ul className="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-200 list-disc pl-5">
-                  {c.features.map((f: string, j: number) => (
-                    <li key={j}>{f}</li>
+                <h3 className="text-lg font-semibold">{tier.name}</h3>
+
+                <div className="mt-4">
+                  <div className="text-3xl font-bold">{tier.price}</div>
+                  <div className="text-sm opacity-70">{tier.period}</div>
+                </div>
+
+                <ul className="mt-5 space-y-2 text-sm list-disc ps-5">
+                  {tier.features.map((f, idx) => (
+                    <li key={idx}>{f}</li>
                   ))}
                 </ul>
+
                 <div className="mt-6">
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-700"
+                    className="inline-flex items-center justify-center rounded-lg border border-stroke-4 dark:border-background-5 bg-white px-4 py-2 text-sm font-medium text-stroke-9 dark:bg-background-8 dark:text-stroke-1 hover:bg-background-2 dark:hover:bg-background-6 transition"
+                    aria-label={pricing.cta}
                   >
-                    Contactar
+                    {pricing.cta}
                   </Link>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
-          <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400">{sections.pricing.disclaimer}</p>
-        </div>
-      </section>
 
-      {/* FAQs */}
-      <section className="relative border-t border-neutral-200 py-12 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4">
-          <h2 className="text-2xl font-bold sm:text-3xl">{sections.faqs.title}</h2>
-          <div className="mt-6 space-y-3">
-            {sections.faqs.items.map((f: QAItem, i: number) => (
-              <details
-                key={i}
-                className="rounded-2xl border border-neutral-200 bg-white p-5 open:shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
-              >
-                <summary className="cursor-pointer list-none font-medium text-neutral-900 dark:text-neutral-50">
-                  {f.q}
-                </summary>
-                <p className="mt-2 text-neutral-600 dark:text-neutral-300">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="relative border-t border-neutral-200 py-16 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4 text-center">
-          <h2 className="text-3xl font-extrabold sm:text-4xl">{cta.title}</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-neutral-600 dark:text-neutral-300">{cta.desc}</p>
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-lg bg-fuchsia-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 dark:focus:ring-fuchsia-700"
-            >
-              {cta.primary}
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-50 dark:hover:bg-neutral-800"
-            >
-              {cta.secondary}
-            </Link>
-          </div>
+          <p
+            className="mt-6 text-center text-sm opacity-60"
+            data-ns-animate
+            data-delay="0.1"
+          >
+            {pricing.disclaimer}
+          </p>
         </div>
       </section>
     </main>

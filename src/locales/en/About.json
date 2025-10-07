@@ -1,6 +1,66 @@
 {
-    "About": {
-    "title": "About us",
-    "intro": "Learn who we are and what drives us."
+  "metaTitle": "About us — Soulmarket",
+  "hero": {
+    "badge": "Multidisciplinary studio",
+    "title": "People, process & tech focused on outcomes",
+    "subtitle": "We’re a 360° team: strategy, design, development, AI automation and support. Fast frontends on solid infrastructure so your brand moves forward.",
+    "ctaPrimary": "Let’s talk",
+    "ctaSecondary": "See portfolio"
+  },
+  "mission": {
+    "title": "Our mission",
+    "body": "Ship and maintain digital products that deliver real value. We simplify processes, improve conversion and build accessible, measurable experiences. Phased work, clear deliverables and business focus."
+  },
+  "values": {
+    "title": "Values",
+    "items": [
+      {"title": "Transparency", "body": "Fixed-price scopes, clear backlog and periodic reporting."},
+      {"title": "Performance", "body": "Fast sites, solid Core Web Vitals and best practices from day one."},
+      {"title": "Scalability", "body": "Architectures that grow with you: headless, APIs and automations."}
+    ]
+  },
+  "stats": {
+    "title": "By the numbers",
+    "items": [
+      {"label": "Projects delivered", "value": "120+"},
+      {"label": "Sites audited", "value": "300+"},
+      {"label": "Avg. load time", "value": "~1.2s"},
+      {"label": "Avg. satisfaction", "value": "4.9/5"}
+    ]
+  },
+  "team": {
+    "title": "Team",
+    "members": [
+      {"name": "Lucía Romero", "role": "PM & Strategy", "avatar": "/images/about/team-lucia.jpg"},
+      {"name": "Daniel Pérez", "role": "Frontend & UI", "avatar": "/images/about/team-daniel.jpg"},
+      {"name": "Sara Gómez", "role": "Marketing & Content", "avatar": "/images/about/team-sara.jpg"},
+      {"name": "Javier Martín", "role": "DevOps & Data", "avatar": "/images/about/team-javier.jpg"}
+    ]
+  },
+  "timeline": {
+    "title": "Milestones",
+    "steps": [
+      {"year": "2019", "title": "First projects", "body": "E-commerce and corporate sites with a performance-first mindset."},
+      {"year": "2021", "title": "Ops expansion", "body": "Automation with n8n/Make and CRM/ERP (Odoo, HubSpot)."},
+      {"year": "2023", "title": "Applied AI", "body": "Chatbots, content generation and smart workflows."},
+      {"year": "2025", "title": "Base template", "body": "Next + next-intl + Tailwind scaffold ready to scale."}
+    ]
+  },
+  "clients": {
+    "title": "Trusted by",
+    "logos": [
+      {"alt": "Client A", "src": "/images/about/clients/client-a.svg"},
+      {"alt": "Client B", "src": "/images/about/clients/client-b.svg"},
+      {"alt": "Client C", "src": "/images/about/clients/client-c.svg"},
+      {"alt": "Client D", "src": "/images/about/clients/client-d.svg"},
+      {"alt": "Client E", "src": "/images/about/clients/client-e.svg"},
+      {"alt": "Client F", "src": "/images/about/clients/client-f.svg"}
+    ]
+  },
+  "cta": {
+    "title": "Ready to begin?",
+    "desc": "Tell us about your project and we’ll propose a phased plan with clear deliverables.",
+    "primary": "Request proposal",
+    "secondary": "See services"
   }
 }

@@ -1,126 +1,58 @@
 {
-  "metaTitle": "Servicios — Soulmarket",
-  "heroBadge": "Agencia digital 360º",
-  "heroTitle": "Transformación digital completa",
-  "heroSub": "Nuestros servicios van desde la creación de páginas corporativas o e-commerce hasta la creación de contenidos audiovisuales de productos o para compartir en redes sociales. Con la solución llave en mano no tendras que preocuparte de palabras como hosting, migraciones o seguridad. Integramos web con CRM/ERP y automatizamos la captación de leads con campañas a tu medida.",
-  "ctaPrimary": "Habla con nosotros",
-  "ctaSecondary": "Ver proyectos",
-  "sections": {
-    "services": {
-      "title": "¿Qué hacemos?",
-      "subtitle": "Tecnología, marketing, audiovisual e infraestructura. Desde automatización con IA y ERP/CRM hasta webs, e-commerce y soporte técnico continuo.",
-      "items": [
-        {
-          "tag": "Transformación Digital",
-          "title": "Automatización & IA",
-          "desc": "Optimizamos procesos con ERP/CRM y flujos sin código/low-code. Implementamos IA práctica para atención, generación de contenidos y análisis.",
-          "bullets": [
-            "ERP/CRM: Odoo, HubSpot, Zoho (integraciones a medida)",
-            "Automatización: n8n, Make, Zapier (webhooks, colas, RPA ligero)",
-            "IA aplicada: chatbots, generación de imágenes/texto, análisis de datos",
-            "APIs y microservicios: REST/SOAP, OAuth2, Webhooks"
-          ]
-        },
-        {
-          "tag": "Desarrollo Web & App",
-          "title": "Web corporativa, e-commerce y mobile",
-          "desc": "Sitios rápidos y seguros con enfoque en conversión: desde landing a catálogo y tienda. Apps móviles cuando el caso de uso lo requiere.",
-          "bullets": [
-            "Front: Next.js (export estático), Tailwind, TypeScript",
-            "E-commerce: PrestaShop, Shopify o headless a medida",
-            "Apps móviles: React Native / Flutter, publicación iOS/Android",
-            "UX/UI y prototipado con el usuario en el centro"
-          ]
-        },
-        {
-          "tag": "Marketing & Comunicación",
-          "title": "SEO/SEM, contenidos y social",
-          "desc": "Estrategias creativas y medibles para atraer clientes y consolidar marca en ES/EN.",
-          "bullets": [
-            "SEO técnico, on-page y schema (ES/EN con hreflang)",
-            "SEM/ADS y campañas multi-canal",
-            "Gestión de redes: contenido, comunidad e influencers",
-            "Branding: identidad, piezas online/offline"
-          ]
-        },
-        {
-          "tag": "Audiovisual",
-          "title": "Foto & Vídeo",
-          "desc": "Producción y edición de piezas para landings, anuncios y redes: spots, reels y vídeos corporativos.",
-          "bullets": ["Pre-producción/guion", "Grabación y edición", "Piezas para paid/social"]
-        },
-        {
-          "tag": "Infraestructura & Soporte",
-          "title": "Servidores, bases de datos y mantenimiento",
-          "desc": "Nos encargamos de la base tecnológica para que el negocio funcione sin interrupciones.",
-          "bullets": [
-            "VPS y redes: administración, seguridad y backups",
-            "Bases de datos: creación, mantenimiento y optimización",
-            "Integraciones técnicas avanzadas y monitoreo",
-            "Soporte y gestión de incidencias con SLA"
-          ]
-        }
-      ]
-    },
-    "offerings": {
-      "title": "Entregables habituales",
-      "items": [
-        { "title": "Mapa de procesos & automatizaciones", "desc": "Diagrama de flujos con herramientas, triggers y SLAs." },
-        { "title": "Arquitectura técnica", "desc": "Diagrama de infraestructura (VPS, CDN, BD, backups, monitorización)." },
-        { "title": "Guía de marca & componentes", "desc": "Tokens, tipografías y librería de UI (Tailwind)." },
-        { "title": "Kit de analítica", "desc": "Métricas, dashboards y eventos clave para negocio." }
-      ]
-    },
-    "process": {
-      "title": "Cómo trabajamos",
-      "steps": [
-        { "title": "1) Auditoría de plantilla", "desc": "Inventario de CSS/JS y componentes reutilizables." },
-        { "title": "2) Layout + i18n", "desc": "Base Next + next-intl con prefijos /es y /en." },
-        { "title": "3) Desarrollo por secciones", "desc": "Portamos secciones de la plantilla a componentes." },
-        { "title": "4) Formularios & Odoo", "desc": "Lead routing por equipo, validación y RGPD." },
-        { "title": "5) SEO & Rendimiento", "desc": "hreflang, sitemap, Vitals y accesibilidad." },
-        { "title": "6) CI/CD & Despliegue", "desc": "next export ➜ rsync (front) / Passenger (API)." }
-      ]
-    },
-    "pricing": {
-      "title": "Planes orientativos",
-      "note": "Precios base. Ajustamos según alcance/volumen.",
-      "cards": [
-        {
-          "name": "Landing Starter",
-          "price": "690€",
-          "period": "pago único",
-          "features": ["1 página (ES/EN)", "Maquetación desde plantilla", "Form básico a Odoo"]
-        },
-        {
-          "name": "Web Pro",
-          "price": "1.490€",
-          "period": "pago único",
-          "features": ["Hasta 5 páginas (ES/EN)", "Blog básico + SEO on-page", "Form avanzado + validación"],
-          "highlight": true
-        },
-        {
-          "name": "Growth",
-          "price": "desde 390€",
-          "period": "al mes",
-          "features": ["Mantenimiento + contenidos", "Gestión redes/ads", "Reporting mensual"]
-        }
-      ],
-      "disclaimer": "* No incluye IVA ni costes de terceros (dominios, ads, etc.)."
-    },
-    "faqs": {
-      "title": "Preguntas frecuentes",
-      "items": [
-        { "q": "¿Trabajáis multilenguaje desde el inicio?", "a": "Sí, configuramos /es y /en con next-intl y hreflang." },
-        { "q": "¿Cómo se envían los leads a Odoo?", "a": "Mediante la API NestJS en /odoo/leads con company_id=4 y ruteo por equipo." },
-        { "q": "¿Qué hosting usáis?", "a": "VPS Ubuntu 22.04 + Plesk, con despliegues por rsync y Passenger para la API." }
-      ]
-    },
-    "cta": {
-      "title": "¿Listo para empezar?",
-      "desc": "Cuéntanos tu proyecto y te proponemos un plan por fases.",
-      "primary": "Solicitar propuesta",
-      "secondary": "Ver contacto"
-    }
+  "metaTitle": "Servicios — SoulMarket",
+  "hero": {
+    "badge": "Agencia digital 360º",
+    "title": "Diseño web, marketing y contenidos",
+    "subtitle": "Elige el plan que mejor se adapte al momento de tu negocio. Rendimiento, SEO y automatización incluidos desde la base.",
+    "ctaPrimary": "Solicitar propuesta",
+    "ctaSecondary": "Ver proyectos"
+  },
+  "pricing": {
+    "title": "Planes orientativos",
+    "note": "Precios base. Ajustamos según alcance y volumen.",
+    "disclaimer": "* No incluye IVA ni costes de terceros (dominios, hosting, ads, etc.).",
+    "cta": "Contactar",
+    "tiers": [
+      {
+        "id": "web",
+        "name": "Web",
+        "price": "690€",
+        "period": "pago único",
+        "features": [
+          "1 página (ES/EN)",
+          "Maquetación desde plantilla",
+          "Formulario básico conectado a CRM",
+          "Diseño adaptado a tu identidad",
+          "Optimización de velocidad y SEO básico"
+        ]
+      },
+      {
+        "id": "web_marketing",
+        "name": "Web + Marketing",
+        "price": "1.490€",
+        "period": "pago único",
+        "features": [
+          "Hasta 5 páginas (ES/EN)",
+          "Blog optimizado para SEO",
+          "Formularios avanzados y validación",
+          "Configuración de analítica y tracking",
+          "Estrategia de campañas y captación de leads"
+        ],
+        "highlight": true
+      },
+      {
+        "id": "web_marketing_content",
+        "name": "Web + Marketing + Contenidos",
+        "price": "desde 2.100€",
+        "period": "mensual",
+        "features": [
+          "Gestión de contenidos y mantenimiento web",
+          "Creación de artículos, reels y piezas audiovisuales",
+          "Gestión de redes sociales y campañas ads",
+          "Reporting mensual y consultoría continua",
+          "Ajustes técnicos y optimización continua"
+        ]
+      }
+    ]
   }
 }

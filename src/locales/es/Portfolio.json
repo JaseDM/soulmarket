@@ -1,23 +1,12 @@
 {
-  "title": "Portfolio",
-  "intro": "Proyectos seleccionados",
-  "filters": {
+  "hero": {
+    "title": "Nuestro trabajo",
+    "subtitle": "Proyectos recientes de desarrollo, diseño y producción audiovisual."
+  },
+  "filter": {
     "all": "Todos",
     "web": "Web",
-    "ecommerce": "E-commerce",
-    "automation": "Automatización",
-    "brand": "Branding",
-    "video": "Vídeo"
-  },
-  "grid": {
-    "empty": "No hay proyectos."
-  },
-  "projects": [
-    {"id": "web-01", "title": "Rediseño web corporativa", "category": "web", "image": "/images/portfolio/web-01.jpg"},
-    {"id": "web-02", "title": "Renovación landing de SaaS", "category": "web", "image": "/images/portfolio/web-02.jpg"},
-    {"id": "ecom-01", "title": "Migración tienda headless", "category": "ecommerce", "image": "/images/portfolio/ecom-01.jpg"},
-    {"id": "auto-01", "title": "Automatizaciones de marketing (n8n)", "category": "automation", "image": "/images/portfolio/auto-01.jpg"},
-    {"id": "brand-01", "title": "Sistema de marca y UI kit", "category": "brand", "image": "/images/portfolio/brand-01.jpg"},
-    {"id": "video-01", "title": "Serie de vídeos de producto", "category": "video", "image": "/images/portfolio/video-01.jpg"}
-  ]
+    "design": "Diseño",
+    "media": "Foto / Video"
+  }
 }
