@@ -1,0 +1,12 @@
+# robots.txt for Soulmarket
+
+User-agent: *
+Allow: /
+
+# Bloquear carpetas internas o privadas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Sitemap
+Sitemap: https://www.soulmarket.agency/sitemap.xml

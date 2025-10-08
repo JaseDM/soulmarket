@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <!-- HOME -->
+  <url>
+    <loc>https://www.soulmarket.es/es</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.soulmarket.es/es"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.soulmarket.es/en"/>
+  </url>
+
+  <!-- ABOUT -->
+  <url>
+    <loc>https://www.soulmarket.es/es/about</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.soulmarket.es/es/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.soulmarket.es/en/about"/>
+  </url>
+
+  <!-- SERVICES -->
+  <url>
+    <loc>https://www.soulmarket.es/es/services</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.soulmarket.es/es/services"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.soulmarket.es/en/services"/>
+  </url>
+
+  <!-- PORTFOLIO -->
+  <url>
+    <loc>https://www.soulmarket.es/es/portfolio</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.soulmarket.es/es/portfolio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.soulmarket.es/en/portfolio"/>
+  </url>
+
+  <!-- CONTACT -->
+  <url>
+    <loc>https://www.soulmarket.es/es/contact</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.soulmarket.es/es/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.soulmarket.es/en/contact"/>
+  </url>
+</urlset>
