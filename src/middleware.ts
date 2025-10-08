@@ -1,9 +1,11 @@
 import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
 
-export default createMiddleware(routing);
+export default createMiddleware({
+  locales: ['es', 'en'], // tus idiomas disponibles
+  defaultLocale: 'es',   // el idioma por defecto
+  localePrefix: 'as-needed'
+});
 
 export const config = {
-  // Excluye /api, /_next, etc. y ficheros con punto
-  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
+  matcher: ['/((?!_next|.*\\..*).*)'] // aplica a todas las rutas excepto assets
 };
