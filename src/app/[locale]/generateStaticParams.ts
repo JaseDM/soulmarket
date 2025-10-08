@@ -1,6 +1,11 @@
-export const dynamic = 'error'; // obliga SSG en este segmento
+export const dynamic = 'error';
 
 export function generateStaticParams() {
-  // añade aquí todos los locales que quieres pre-generar
-  return [{ locale: 'es' }, { locale: 'en' }];
+  return [
+    { locale: 'es' }, // 🇪🇸 Español → raíz /
+    { locale: 'en' }  // 🇬🇧 Inglés → /en
+  ];
 }
+
+// (Opcional) Desactiva parámetros dinámicos
+export const dynamicParams = false;

@@ -1,18 +1,10 @@
-// src/middleware.ts
 import createMiddleware from 'next-intl/middleware';
+import {routing} from '@/i18n/routing';
 
-export default createMiddleware({
-  locales: ['es', 'en'],
-  defaultLocale: 'es',
-  // 👇 fuerza el prefijo SIEMPRE, incluso para el idioma por defecto
-  localePrefix: 'always',
-  // opcional: si no quieres negociar por Accept-Language
-  // localeDetection: false
-});
+// Usa exactamente el mismo routing (locales, defaultLocale, localePrefix, pathnames)
+export default createMiddleware(routing);
 
-// Evita que el middleware toque assets y archivos estáticos
+// No interceptes assets, archivos con extensión ni /api
 export const config = {
-  matcher: [
-    '/((?!_next|.*\\..*|api).*)' // excluye /_next, ficheros con extensión y /api
-  ]
+  matcher: ['/((?!_next|.*\\..*|api).*)']
 };

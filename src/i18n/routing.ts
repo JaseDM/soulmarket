@@ -3,8 +3,9 @@ import {defineRouting} from 'next-intl/routing';
 
 export const routing = defineRouting({
   locales: ['es', 'en'],
-  defaultLocale: 'es',
-  // Si usas pathnames localizados, déjalos aquí
+  defaultLocale: 'es',           // 🇪🇸 por defecto en la raíz
+  localePrefix: 'as-needed',     // sin prefijo para ES, con /en para inglés
+  // Rutas CANÓNICAS (izquierda) + segmentación localizada por idioma
   pathnames: {
     '/': '/',
     '/about':     {en: '/about',     es: '/nosotros'},
@@ -14,8 +15,8 @@ export const routing = defineRouting({
   }
 });
 
-/** 
- * Single source of truth: orden del menú
- * (usa las rutas "canónicas"; next-intl las convierte según el locale activo)
- */
+// Menú principal basado en rutas canónicas
 export const MAIN_MENU = ['/', '/about', '/services', '/portfolio', '/contact'] as const;
+
+// (Opcional) tipo útil en componentes
+export type MainMenuItem = (typeof MAIN_MENU)[number];

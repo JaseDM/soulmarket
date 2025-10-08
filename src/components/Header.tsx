@@ -72,7 +72,7 @@ export default function HeaderOne({
       {/* Barra superior estilo glass */}
       <div
         className={[
-            'header.one',
+            'header-one',
             'fixed inset-x-0 top-0 z-[9999]',
             'mx-auto w-full',
             'backdrop-blur-xl backdrop-saturate-150',
