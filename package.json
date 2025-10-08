@@ -4,11 +4,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix"
+    "dev": "next dev",
+    "build": "next build",   
+    "start": "next start -p 3000"
+  
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

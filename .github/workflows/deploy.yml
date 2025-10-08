@@ -1,79 +1,48 @@
-name: Deploy to Plesk
+name: Deploy to Plesk (Node server)
 
 on:
   push:
-    branches: [ "main" ]  # ajusta si usas otra rama
+    branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      # IMPORTANTE: tu package.json debe tener:
-      # "build": "next build --turbopack && next export"
-      - name: Build project (Next.js static export)
-        run: npm run build
-
-      # Opción A: fijamos explícitamente la carpeta de salida (recomendado)
-      - name: Set build dir
-        id: detect
-        run: echo "dir=out" >> $GITHUB_OUTPUT
-
-      # Si prefieres detección, usa esta alternativa:
-      # - name: Detect build dir
-      #   id: detect
-      #   run: |
-      #     if [ -d "out" ]; then
-      #       echo "dir=out" >> $GITHUB_OUTPUT
-      #     elif [ -d "dist" ]; then
-      #       echo "dir=dist" >> $GITHUB_OUTPUT
-      #     elif [ -d "build" ]; then
-      #       echo "dir=build" >> $GITHUB_OUTPUT
-      #     else
-      #       echo "No build dir found"; exit 1
-      #     fi
-
-      - name: Validate SSH key format
+      - name: Validate SSH key
         run: |
           umask 077
           cat <<'EOF' > /tmp/deploy_key
           ${{ secrets.SSH_KEY }}
           EOF
           chmod 600 /tmp/deploy_key
-          echo "Fingerprint de la clave privada:"
-          ssh-keygen -lf /tmp/deploy_key || { echo "Formato de clave inválido"; exit 1; }
-          echo "Pública derivada (primeros 80 chars):"
-          ssh-keygen -y -f /tmp/deploy_key | head -c 80; echo " ..."
+          ssh-keygen -lf /tmp/deploy_key
 
       - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
 
-      - name: Test SSH connectivity
-        run: |
-          ssh -o BatchMode=yes -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
-            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" 'echo OK_FROM_SERVER'
-
-      # Despliegue con rsync preservando .well-known (no borrar certificados/challenges)
-      - name: Deploy via rsync
+      - name: Rsync source (sin node_modules, .git, etc.)
         run: |
           rsync -avz --delete \
-            --exclude='.well-known' \
-            --chmod=D755,F644 \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.next' \
             -e "ssh -i /tmp/deploy_key -p ${{ secrets.SSH_PORT }}" \
-            "${{ steps.detect.outputs.dir }}/" \
+            ./ \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/"
+
+      - name: Install, build & restart (remote)
+        run: |
+          ssh -i /tmp/deploy_key -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "set -e
+             cd '${{ secrets.DEPLOY_PATH }}'
+             npm ci
+             npm run build
+             npx pm2 startOrReload ecosystem.config.js || npx pm2 start 'npm -- start' --name soulmarket
+             npx pm2 save"
