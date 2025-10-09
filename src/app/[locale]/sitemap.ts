@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = 'https://tusitio.com'
+const BASE_URL = 'https://soulmarket.es' 
 const locales = ['es', 'en'] as const
 
 // 1) Indica qué sitemaps quieres (uno por locale)

@@ -9,7 +9,7 @@ import Script from 'next/script';
 import CommonScripts from '@/components/CommonScripts';
 import '../globals.css';
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://soulmarket.es';
 const SUPPORTED_LOCALES = ['es', 'en'] as const;
 type Locale = (typeof SUPPORTED_LOCALES)[number];
 
