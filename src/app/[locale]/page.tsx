@@ -10,6 +10,8 @@ import HeroLinesClient from '@/components/HeroLinesClient'
 import AnimationsBoot from '@/components/AnimationsBoot'
 type HomePageMessages = typeof enHomeMessages;
 
+
+
 export default async function HomePage({
   params
 }: {
