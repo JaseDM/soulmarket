@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+Disallow: /drafts/
+
+Sitemap: https://soulmarket.es/sitemap.xml
+
+
+Host: https://soulmarket.es
