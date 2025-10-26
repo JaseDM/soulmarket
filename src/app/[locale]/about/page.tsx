@@ -38,7 +38,7 @@ export default async function AboutPage({
 
   
 
-  const {hero, mission, values, stats, team, timeline, clients, cta} = messages
+  const {hero, mission, values, stats, team, clients, cta} = messages
 
   return (
     <main className="relative min-h-screen bg-background-3 dark:bg-background-5 text-stroke-9 dark:text-stroke-1">

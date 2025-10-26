@@ -98,10 +98,7 @@ export default function ContactForm({ i18n }: Props) {
       setState({ status: "success", message: i18n.feedback.success });
       formRef.current?.reset();
 
-      // 🆕 Los tokens de Turnstile son de un solo uso → generamos otro
-      // @ts-expect-error Turnstile añade 'turnstile' al window
       if (typeof window !== "undefined" && window.turnstile) {
-        // @ts-expect-error
         window.turnstile.reset();
       }
     } catch (err: unknown) {
