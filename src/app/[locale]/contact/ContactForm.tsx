@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Script from "next/script"; // 🆕 Cargamos el script de Turnstile solo aquí
+import Script from "next/script";
 
 type FormState =
   | { status: "idle" }
@@ -30,11 +30,55 @@ export type ContactFormI18n = {
   feedback: { success: string; error: string };
 };
 
-type Props = { i18n: ContactFormI18n };
+type Props = { i18n: ContactFormI18n; siteKey: string };
 
-export default function ContactForm({ i18n }: Props) {
+export default function ContactForm({ i18n, siteKey }: Props) {
   const [state, setState] = React.useState<FormState>({ status: "idle" });
+
+  // Ref al contenedor donde vamos a renderizar explícitamente el widget
+  const captchaRef = React.useRef<HTMLDivElement | null>(null);
+  const widgetIdRef = React.useRef<string | null>(null);
   const formRef = React.useRef<HTMLFormElement>(null);
+
+  // Render explícito cada vez que tengamos script cargado + siteKey
+  const renderCaptcha = React.useCallback(() => {
+    if (!captchaRef.current) return;
+    if (typeof window === "undefined" || !window.turnstile) return;
+
+    // Si ya existía un widget, elimínalo antes de volver a renderizar
+    if (widgetIdRef.current) {
+      window.turnstile.remove(widgetIdRef.current);
+      widgetIdRef.current = null;
+    }
+
+    widgetIdRef.current = window.turnstile.render(captchaRef.current, {
+      sitekey: siteKey,
+      theme: "auto",
+      // callback se dispara cuando obtiene token y añade el input hidden al <form>
+      callback: (_token: string) => {
+        // opcional: podrías habilitar el submit aquí
+      },
+      "error-callback": (code: string) => {
+        console.error("[Turnstile error-callback]", code);
+      },
+      "expired-callback": () => {
+        // token expirado → pedir uno nuevo
+        if (widgetIdRef.current) window.turnstile?.reset(widgetIdRef.current);
+      }
+    });
+  }, [siteKey]);
+
+  // Re-renderiza el widget al montar y cuando cambie la siteKey (o la ruta/idioma que provoca remount)
+  React.useEffect(() => {
+    renderCaptcha();
+    // cleanup al desmontar
+    return () => {
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
+    };
+  }, [renderCaptcha]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,7 +89,7 @@ export default function ContactForm({ i18n }: Props) {
     const teamId = Number((form.get("area_interes") as string) || "");
     if ((form.get("website") as string)?.trim()) return; // honeypot
 
-    // 🆕 Token que inyecta Turnstile en el <form>
+    // Token inyectado por Turnstile en el <form>
     const turnstileToken =
       (form.get("cf-turnstile-response") as string | null)?.trim() || "";
 
@@ -57,10 +101,10 @@ export default function ContactForm({ i18n }: Props) {
       teamId,
       companyId,
       sourceId,
-      turnstileToken // 🆕 se envía al backend para verificación
+      turnstileToken
     };
 
-    // --- Validaciones con i18n ---
+    // Validaciones
     const errors: string[] = [];
     if (!payload.nombre) errors.push(i18n.errors.required);
     if (!payload.email) errors.push(i18n.errors.required);
@@ -71,7 +115,7 @@ export default function ContactForm({ i18n }: Props) {
     if (payload.telefono && !/^\+?[0-9\s-]{7,15}$/.test(payload.telefono))
       errors.push(i18n.errors.phone);
     if (form.get("privacy") !== "on") errors.push(i18n.errors.required);
-    if (!payload.turnstileToken) errors.push(i18n.errors.required); // 🆕 captcha obligatorio
+    if (!payload.turnstileToken) errors.push(i18n.errors.required); // captcha obligatorio
 
     if (errors.length) {
       setState({ status: "error", message: errors[0] });
@@ -81,7 +125,6 @@ export default function ContactForm({ i18n }: Props) {
     try {
       setState({ status: "submitting" });
 
-      // 🆕 Enviamos SIEMPRE al endpoint interno que valida Turnstile
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -98,23 +141,25 @@ export default function ContactForm({ i18n }: Props) {
       setState({ status: "success", message: i18n.feedback.success });
       formRef.current?.reset();
 
-      if (typeof window !== "undefined" && window.turnstile) {
-        window.turnstile.reset();
+      // Los tokens son de un solo uso -> resetea el widget actual
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
       }
     } catch (err: unknown) {
       setState({ status: "error", message: getErrorMessage(err) });
     }
   }
 
-  // 🆕 La clave pública se expone al cliente
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
-
   return (
     <>
-      {/* 🆕 Script Turnstile: se carga SOLO cuando este componente se monta */}
+      {/* ⚠️ IMPORTANTE: render explícito */}
       <Script
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
         strategy="afterInteractive"
+        onLoad={() => {
+          // Si llegas aquí tras un cambio de idioma, vuelve a renderizar
+          renderCaptcha();
+        }}
       />
 
       <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
@@ -173,12 +218,8 @@ export default function ContactForm({ i18n }: Props) {
           />
         </Field>
 
-        {/* 🆕 Turnstile (managed, visible). Inyecta <input name="cf-turnstile-response"> en el <form> */}
-        <div
-          className="cf-turnstile"
-          data-sitekey={siteKey}
-          data-theme="auto"
-        />
+        {/* Contenedor vacío: Turnstile se renderiza aquí de forma explícita */}
+        <div ref={captchaRef} />
 
         {/* Aceptación de privacidad */}
         <div className="flex items-start gap-3 rounded-md border border-slate-200/70 bg-white/70 p-3 dark:border-white/10 dark:bg-white/5">
