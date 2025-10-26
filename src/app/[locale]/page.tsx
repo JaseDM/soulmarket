@@ -170,15 +170,7 @@ const t = await createTranslator({
               <div
                 className="flex flex-col sm:flex-row sm:items-center justify-start gap-6 p-6 rounded-2xl bg-secondary dark:bg-background-9 max-w-[420px] mt-4 sm:-mt-8 z-10 relative"
               >
-                <div className="flex -space-x-3.5">
-                  <Image
-                    src="/images/avatar/avatar-1.png"
-                    alt="Avatar"
-                    width={56}
-                    height={56}
-                    className="inline-block size-14 rounded-full ring-4 ring-ns-yellow bg-white"
-                  />
-                </div>
+                
                 <div>
                   <h5 className="text-accent mb-1">{t('start.handoff.badge')}</h5>
                   <p className="text-accent/60">{t('start.handoff.desc')}</p>

@@ -181,7 +181,7 @@ export default async function AboutPage({
       </section>
 
       {/* === TIMELINE =============================================== */}
-      <section className="main-container py-14">
+      {/* <section className="main-container py-14">
         <h3 className="mb-8" data-ns-animate>{timeline.title}</h3>
         <ol className="relative border-s border-stroke-4 dark:border-background-5 ps-6">
           {timeline.steps.map((st, i) => (
@@ -193,7 +193,7 @@ export default async function AboutPage({
             </li>
           ))}
         </ol>
-      </section>
+      </section> */}
 
       {/* === CLIENTES =============================================== */}
       <section className="main-container py-14">
