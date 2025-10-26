@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Script from "next/script"; // 🆕 Cargamos el script de Turnstile solo aquí
 
 type FormState =
   | { status: "idle" }
@@ -15,21 +16,21 @@ function getErrorMessage(err: unknown): string {
 
 export type ContactFormI18n = {
   fields: {
-    name: {label: string; placeholder: string}
-    phone: {label: string; placeholder: string}
-    email: {label: string; placeholder: string}
-    team: {label: string; placeholder: string}
-    message: {label: string; placeholder: string}
-  }
-  options: {team: Record<string, string>}
-  privacy: {labelPrefix: string; linkText: string}
-  infoLine: string
-  actions: {submit: string; sending: string}
-  errors: {required: string; email: string; phone: string; team: string}
-  feedback: {success: string; error: string}
-}
+    name: { label: string; placeholder: string };
+    phone: { label: string; placeholder: string };
+    email: { label: string; placeholder: string };
+    team: { label: string; placeholder: string };
+    message: { label: string; placeholder: string };
+  };
+  options: { team: Record<string, string> };
+  privacy: { labelPrefix: string; linkText: string };
+  infoLine: string;
+  actions: { submit: string; sending: string };
+  errors: { required: string; email: string; phone: string; team: string };
+  feedback: { success: string; error: string };
+};
 
-type Props = { i18n: ContactFormI18n }
+type Props = { i18n: ContactFormI18n };
 
 export default function ContactForm({ i18n }: Props) {
   const [state, setState] = React.useState<FormState>({ status: "idle" });
@@ -38,10 +39,15 @@ export default function ContactForm({ i18n }: Props) {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+
     const companyId = Number((form.get("company_id") as string) || "4");
     const sourceId = Number((form.get("source_id") as string) || "10");
     const teamId = Number((form.get("area_interes") as string) || "");
     if ((form.get("website") as string)?.trim()) return; // honeypot
+
+    // 🆕 Token que inyecta Turnstile en el <form>
+    const turnstileToken =
+      (form.get("cf-turnstile-response") as string | null)?.trim() || "";
 
     const payload = {
       nombre: (form.get("nombre") as string | null)?.trim() || "",
@@ -51,6 +57,7 @@ export default function ContactForm({ i18n }: Props) {
       teamId,
       companyId,
       sourceId,
+      turnstileToken // 🆕 se envía al backend para verificación
     };
 
     // --- Validaciones con i18n ---
@@ -64,6 +71,7 @@ export default function ContactForm({ i18n }: Props) {
     if (payload.telefono && !/^\+?[0-9\s-]{7,15}$/.test(payload.telefono))
       errors.push(i18n.errors.phone);
     if (form.get("privacy") !== "on") errors.push(i18n.errors.required);
+    if (!payload.turnstileToken) errors.push(i18n.errors.required); // 🆕 captcha obligatorio
 
     if (errors.length) {
       setState({ status: "error", message: errors[0] });
@@ -72,130 +80,152 @@ export default function ContactForm({ i18n }: Props) {
 
     try {
       setState({ status: "submitting" });
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE ?? "https://api.soulmarket.es";
-      const res = await fetch(`${apiBase}/odoo/leads`, {
+
+      // 🆕 Enviamos SIEMPRE al endpoint interno que valida Turnstile
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: payload.nombre,
-          email: payload.email,
-          phone: payload.telefono || undefined,
-          message: payload.mensaje,
-          source: { id: payload.sourceId },
-          company: { id: payload.companyId },
-          team: { id: payload.teamId },
-        }),
+        body: JSON.stringify(payload)
       });
+
       if (!res.ok) {
-        const data = (await res.json().catch(() => undefined)) as { error?: string } | undefined;
+        const data = (await res.json().catch(() => undefined)) as
+          | { error?: string }
+          | undefined;
         throw new Error(data?.error || i18n.feedback.error);
       }
+
       setState({ status: "success", message: i18n.feedback.success });
       formRef.current?.reset();
+
+      // 🆕 Los tokens de Turnstile son de un solo uso → generamos otro
+      // @ts-expect-error Turnstile añade 'turnstile' al window
+      if (typeof window !== "undefined" && window.turnstile) {
+        // @ts-expect-error
+        window.turnstile.reset();
+      }
     } catch (err: unknown) {
       setState({ status: "error", message: getErrorMessage(err) });
     }
   }
 
-  return (
-    <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
-      {/* Honeypot */}
-      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
-      {/* Hidden defaults required by backend/Odoo */}
-      <input type="hidden" name="company_id" value="4" />
-      <input type="hidden" name="source_id" value="10" />
+  // 🆕 La clave pública se expone al cliente
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={i18n.fields.name.label} htmlFor="nombre" required>
-          <input id="nombre" name="nombre" required placeholder={i18n.fields.name.placeholder} className={inputClass} />
-        </Field>
-        <Field label={i18n.fields.phone.label} htmlFor="telefono">
+  return (
+    <>
+      {/* 🆕 Script Turnstile: se carga SOLO cuando este componente se monta */}
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        strategy="afterInteractive"
+      />
+
+      <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
+        {/* Honeypot */}
+        <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+        {/* Hidden defaults required by backend/Odoo */}
+        <input type="hidden" name="company_id" value="4" />
+        <input type="hidden" name="source_id" value="10" />
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label={i18n.fields.name.label} htmlFor="nombre" required>
+            <input id="nombre" name="nombre" required placeholder={i18n.fields.name.placeholder} className={inputClass} />
+          </Field>
+          <Field label={i18n.fields.phone.label} htmlFor="telefono">
+            <input
+              id="telefono"
+              name="telefono"
+              placeholder={i18n.fields.phone.placeholder}
+              inputMode="tel"
+              className={inputClass}
+            />
+          </Field>
+        </div>
+
+        <Field label={i18n.fields.email.label} htmlFor="email" required>
           <input
-            id="telefono"
-            name="telefono"
-            placeholder={i18n.fields.phone.placeholder}
-            inputMode="tel"
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder={i18n.fields.email.placeholder}
             className={inputClass}
           />
         </Field>
-      </div>
 
-      <Field label={i18n.fields.email.label} htmlFor="email" required>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          placeholder={i18n.fields.email.placeholder}
-          className={inputClass}
+        <Field label={i18n.fields.team.label} htmlFor="area_interes" required>
+          <select id="area_interes" name="area_interes" required className={inputClass} defaultValue="">
+            <option value="" disabled>
+              {i18n.fields.team.placeholder}
+            </option>
+            {/* Mantén los IDs que espera tu backend */}
+            <option value="6">{i18n.options.team["6"]}</option>
+            <option value="4">{i18n.options.team["4"]}</option>
+            <option value="5">{i18n.options.team["5"]}</option>
+          </select>
+        </Field>
+
+        <Field label={i18n.fields.message.label} htmlFor="mensaje" required>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            required
+            placeholder={i18n.fields.message.placeholder}
+            rows={5}
+            className={inputClass + " resize-y"}
+          />
+        </Field>
+
+        {/* 🆕 Turnstile (managed, visible). Inyecta <input name="cf-turnstile-response"> en el <form> */}
+        <div
+          className="cf-turnstile"
+          data-sitekey={siteKey}
+          data-theme="auto"
         />
-      </Field>
 
-      <Field label={i18n.fields.team.label} htmlFor="area_interes" required>
-        <select id="area_interes" name="area_interes" required className={inputClass} defaultValue="">
-          <option value="" disabled>
-            {i18n.fields.team.placeholder}
-          </option>
-          {/* Mantén los IDs que espera tu backend */}
-          <option value="6">{i18n.options.team["6"]}</option>
-          <option value="4">{i18n.options.team["4"]}</option>
-          <option value="5">{i18n.options.team["5"]}</option>
-        </select>
-      </Field>
+        {/* Aceptación de privacidad */}
+        <div className="flex items-start gap-3 rounded-md border border-slate-200/70 bg-white/70 p-3 dark:border-white/10 dark:bg-white/5">
+          <input
+            id="privacy"
+            name="privacy"
+            type="checkbox"
+            className="mt-1 h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-400 dark:border-white/10 dark:bg-transparent dark:checked:bg-cyan-500"
+          />
+          <label htmlFor="privacy" className="text-sm text-slate-700 dark:text-slate-200">
+            {i18n.privacy.labelPrefix}{" "}
+            <a
+              href="/privacy"
+              className="font-semibold text-primary-800 underline text-primary-500/40 underline-offset-2 hover:text-primary-600 dark:text-primary-300 dark:hover:text-primary-200"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {i18n.privacy.linkText}
+            </a>
+            .
+          </label>
+        </div>
 
-      <Field label={i18n.fields.message.label} htmlFor="mensaje" required>
-        <textarea
-          id="mensaje"
-          name="mensaje"
-          required
-          placeholder={i18n.fields.message.placeholder}
-          rows={5}
-          className={inputClass + " resize-y"}
-        />
-      </Field>
-
-      {/* Aceptación de privacidad */}
-      <div className="flex items-start gap-3 rounded-md border border-slate-200/70 bg-white/70 p-3 dark:border-white/10 dark:bg-white/5">
-        <input
-          id="privacy"
-          name="privacy"
-          type="checkbox"
-          className="mt-1 h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-400 dark:border-white/10 dark:bg-transparent dark:checked:bg-cyan-500"
-        />
-        <label htmlFor="privacy" className="text-sm text-slate-700 dark:text-slate-200">
-          {i18n.privacy.labelPrefix}{" "}
-          <a
-            href="/privacy"
-            className="font-semibold text-primary-800 underline text-primary-500/40 underline-offset-2 hover:text-primary-600 dark:text-primary-300 dark:hover:text-primary-200"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-xs text-slate-600 dark:text-slate-400">{i18n.infoLine}</p>
+          <button
+            type="submit"
+            disabled={state.status === "submitting"}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 font-semibold text-white shadow-lg shadow-primary-500/20 transition hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-primary-500 dark:hover:bg-primary-400"
           >
-            {i18n.privacy.linkText}
-          </a>
-          .
-        </label>
-      </div>
+            {state.status === "submitting" ? (
+              <>
+                <Spinner /> {i18n.actions.sending}
+              </>
+            ) : (
+              i18n.actions.submit
+            )}
+          </button>
+        </div>
 
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-xs text-slate-600 dark:text-slate-400">{i18n.infoLine}</p>
-        <button
-          type="submit"
-          disabled={state.status === "submitting"}
-          className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 font-semibold text-white shadow-lg shadow-primary-500/20 transition hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-primary-500 dark:hover:bg-primary-400"
-        >
-          {state.status === "submitting" ? (
-            <>
-              <Spinner /> {i18n.actions.sending}
-            </>
-          ) : (
-            i18n.actions.submit
-          )}
-        </button>
-      </div>
-
-      {state.status === "error" && <Alert tone="error" message={state.message} />}
-      {state.status === "success" && <Alert tone="success" message={state.message} />}
-    </form>
+        {state.status === "error" && <Alert tone="error" message={state.message} />}
+        {state.status === "success" && <Alert tone="success" message={state.message} />}
+      </form>
+    </>
   );
 }
 
