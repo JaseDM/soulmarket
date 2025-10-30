@@ -61,10 +61,10 @@ export default function Tabs({
         className="tab-bar hidden lg:flex justify-center items-center border-b border-stroke-2 dark:border-stroke-6 mb-14 lg:mb-[72px] relative"
       >
         {/* barra bajo la pestaña activa */}
-        <div
+       {/* <div
           ref={barRef}
           className="active-tab-bar absolute bottom-0 left-0 h-[2px] w-0 bg-primary-500 transition-all duration-300"
-        />
+        />*/}
         {tabs.map((tab, i) => (
           <button
             key={i}

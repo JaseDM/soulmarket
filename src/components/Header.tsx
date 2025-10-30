@@ -9,7 +9,6 @@ import {MAIN_MENU} from '@/i18n/routing'
 import LocaleSwitch from './LocaleSwitch'
 import {initHeaderAnimations} from '@/lib/animations/headerScroll'
 
-
 type Props = {
   className?: string
   navItemClass?: string
@@ -59,32 +58,36 @@ export default function HeaderOne({
     return pathname === target || pathname.startsWith(target + '/')
   }
 
- 
+  // init animaciones header
+  useEffect(() => {
+    const cleanup = initHeaderAnimations()
+    return cleanup
+  }, [])
 
-    useEffect(() => {
-      const cleanup = initHeaderAnimations()
-      return cleanup
-    }, [])
-
+  // 👇 aquí quitamos las rutas que todavía no existen
+  const filteredMenu = MAIN_MENU.filter((href: Href) => {
+    const path = typeof href === 'string' ? href : href.pathname
+    return path !== '/about' && path !== '/portfolio'
+  })
 
   return (
-    <header className='header-one'>
+    <header className="header-one">
       {/* Barra superior estilo glass */}
       <div
         className={[
-            'header-one',
-            'fixed inset-x-0 top-0 z-[9999]',
-            'mx-auto w-full',
-            'backdrop-blur-xl backdrop-saturate-150',
-            'bg-white/30 dark:bg-gray-900/30',
-            'border border-white/20 dark:border-white/10',
-            'rounded-full',
-            'max-w-[1290px] xl:max-w-[1140px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] min-[500px]:max-w-[450px] min-[425px]:max-w-[375px] max-w-[320px]',
-            'px-3 py-2 xl:py-0',
-            'left-1/2 -translate-x-1/2 top-5',
-            'js-header-bar',          // ✅ identifica el bloque visible
-            'header-bar', 
-          className
+          'header-one',
+          'fixed inset-x-0 top-0 z-[9999]',
+          'mx-auto w-full',
+          'backdrop-blur-xl backdrop-saturate-150',
+          'bg-white/30 dark:bg-gray-900/30',
+          'border border-white/20 dark:border-white/10',
+          'rounded-full',
+          'max-w-[1290px] xl:max-w-[1140px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] min-[500px]:max-w-[450px] min-[425px]:max-w-[375px] max-w-[320px]',
+          'px-3 py-2 xl:py-0',
+          'left-1/2 -translate-x-1/2 top-5',
+          'js-header-bar',
+          'header-bar',
+          className,
         ].join(' ')}
       >
         <div className="mx-auto h-14 flex items-center justify-between">
@@ -100,14 +103,14 @@ export default function HeaderOne({
                     src="/main-logo.svg"
                     alt="SoulMarket"
                     className="dark:hidden h-auto w-auto"
-                    />
-                    <Image
+                  />
+                  <Image
                     width={198}
                     height={40}
                     src="/dark-logo.svg"
                     alt="SoulMarket"
                     className="hidden dark:block h-auto w-auto"
-                    />
+                  />
                 </span>
                 <span className="lg:hidden inline-block">
                   <Image src="/logo.svg" alt="Logo" width={44} height={44} />
@@ -119,7 +122,7 @@ export default function HeaderOne({
           {/* Navegación desktop */}
           <nav className="hidden xl:flex items-center">
             <ul className="flex items-center gap-2">
-              {MAIN_MENU.map((href: Href) => (
+              {filteredMenu.map((href: Href) => (
                 <li key={typeof href === 'string' ? href : href.pathname} className="py-2.5">
                   <Link
                     href={href}
@@ -128,7 +131,7 @@ export default function HeaderOne({
                       isActive(href)
                         ? 'bg-black/5 dark:bg-white/10 text-gray-900 dark:text-white'
                         : 'text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white',
-                      navItemClass || ''
+                      navItemClass || '',
                     ].join(' ')}
                     aria-current={isActive(href) ? 'page' : undefined}
                   >
@@ -142,11 +145,8 @@ export default function HeaderOne({
           {/* CTA (desktop) */}
           <div className="hidden xl:flex items-center">
             <LocaleSwitch />
-           
-            <Link
-              href="/contact"
-              className={['btn','btn-md', btnClass || 'btn-primary'].join(' ')}
-            >
+
+            <Link href="/contact" className={['btn', 'btn-md', btnClass || 'btn-primary'].join(' ')}>
               <span>{t('cta')}</span>
             </Link>
           </div>
@@ -170,7 +170,7 @@ export default function HeaderOne({
         </div>
       </div>
 
-      {/* Sidebar móvil controlado por estado */}
+      {/* Sidebar móvil */}
       <aside
         id="mobile-sidebar"
         className={[
@@ -178,7 +178,7 @@ export default function HeaderOne({
           'bg-white dark:bg-gray-900',
           'transition-transform duration-300 ease-out',
           open ? 'translate-x-0' : 'translate-x-full',
-          'z-[99999] xl:hidden'
+          'z-[99999] xl:hidden',
         ].join(' ')}
         aria-hidden={!open}
       >
@@ -204,7 +204,7 @@ export default function HeaderOne({
 
           <nav>
             <ul className="flex flex-col gap-2">
-              {MAIN_MENU.map((href: Href) => (
+              {filteredMenu.map((href: Href) => (
                 <li key={typeof href === 'string' ? href : href.pathname}>
                   <Link
                     href={href}
@@ -212,7 +212,7 @@ export default function HeaderOne({
                       'block px-4 py-3 rounded-lg',
                       isActive(href)
                         ? 'bg-black/5 dark:bg-white/10 text-gray-900 dark:text-white'
-                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10'
+                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10',
                     ].join(' ')}
                     onClick={() => setOpen(false)}
                   >
@@ -231,14 +231,13 @@ export default function HeaderOne({
               </li>
               <li className="pt-2">
                 <LocaleSwitch />
-                
-            </li>
+              </li>
             </ul>
           </nav>
         </div>
       </aside>
 
-      {/* Overlay (click para cerrar) */}
+      {/* Overlay */}
       <button
         type="button"
         aria-hidden={!open}
@@ -246,10 +245,10 @@ export default function HeaderOne({
         className={[
           'fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-200',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
-          'z-[99990] xl:hidden'
+          'z-[99990] xl:hidden',
         ].join(' ')}
         onClick={() => setOpen(false)}
       />
     </header>
-    )
-  }
+  )
+}
