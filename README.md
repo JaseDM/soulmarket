@@ -180,3 +180,9 @@ Esta plantilla está lista para ser reutilizada en proyectos futuros. Incluye:
   - **Toggle dark/light animado**
   - **Páginas base**
   - **Traducciones listas** en ES/EN
+
+
+  id
+  823189390309067
+  cs
+  27439f10eeb8c799daabad555d2573e7

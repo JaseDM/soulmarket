@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import ThemeToggle from '@/components/ThemeToggle';
 import Script from 'next/script';
 import CommonScripts from '@/components/CommonScripts';
+import ToastProvider from '@/components/ToastProvider';
 import '../globals.css';
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://soulmarket.es';
@@ -95,6 +96,7 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-500">
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <ToastProvider />
           <Header />
           {children}
           <ThemeToggle />
