@@ -36,6 +36,7 @@
         "placeholder": "¿En qué podemos ayudarte?"
       }
     },
+    "imageAlt": "Ilustración de un servicio de contacto",
     "options": {
       "team": {
         "6": "Tecnología (web, hosting, integraciones)",
@@ -75,5 +76,15 @@
     "overlayStartHint": "Pulsa Iniciar o la barra espaciadora para empezar.",
     "overlayGameOver": "¡Game Over!",
     "controlsHint": "Controles: Iniciar (botón), ← → mover, ↑ rotar, ↓ bajar, barra espaciadora soltar."
+  },
+  "aside": {
+    "title": "Elige tu servicio y déjanos tu mensaje",
+    "subtitle": "Selecciona el área que te interesa y cuéntanos tus necesidades",
+    "serviceTitleTech": "Tecnología (Web, Hosting, Integraciones):",
+    "serviceParaTech": "Desarrollamos soluciones digitales completas adaptadas a tu negocio. Creamos sitios web a medida, gestionamos el hosting con protocolos de seguridad avanzados. Realizamos integraciones que optimizan los procesos internos de tu empresa. Nuestro objetivo es garantizar que tu infraestructura digital sea eficiente, segura y escalable. ",
+    "serviceTitleMark": "Marketing (SEO, SEM, Comunicación, Ads):",
+    "serviceParaMark": "Diseñamos estrategias de marketing digital orientadas a resultados. Desde posicionamiento en buscadores (SEO), campañas de publicidad online (SEM/Google Ads), redes sociales y así captar a tu público objetivo.",
+    "serviceTitleVis": "Audiovisual (Foto y Video):",
+    "serviceParaVis": "Producción de contenidos visuales de alta calidad para transmitir la esencia de tu marca. Realizamos fotografía profesional, videos corporativos, spots publicitarios y material para redes sociales, combinando creatividad y estrategia para maximizar el impacto."
   }
 }

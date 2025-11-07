@@ -3,7 +3,6 @@ import {setRequestLocale} from 'next-intl/server'
 import {createTranslator} from 'next-intl'
 import type {AbstractIntlMessages} from 'next-intl'
 import ContactForm, {type ContactFormI18n} from './ContactForm'
-import Tetris from '@/components/interactive/Tetris'
 import Image from 'next/image'
 import * as React from 'react'
 
@@ -171,9 +170,29 @@ export default async function ContactPage({
             data-delay="0.1"
             data-offset="60"
           >
-            <div className="rounded-2xl overflow-hidden opacity-0 blur-[3px]" data-ns-animate data-delay="0.15">
-              <Tetris />
+            <div className="flex pb-10">
+              <Image
+                src="/images/contact/icono-3.svg"
+                alt={t('form.imageAlt')}
+                width={34}
+                height={56}
+              />
+              <div className='pl-4'>
+                <h3 className="text-2xl font-bold opacity-0 blur-[3px]" data-ns-animate data-delay="0.05">{t('aside.title')}</h3>
+                <p className="mt-1 mb-6 text-sm opacity-70 opacity-0 blur-[3px]" data-ns-animate data-delay="0.1">{t('aside.subtitle')}</p>
+              </div>
+            
             </div>
+            <h3 className="text-2xl font-bold opacity-0 blur-[3px]" data-ns-animate data-delay="0.05">{t('aside.serviceTitleTech')}</h3>
+            <p className="mt-1 mb-6 text-sm opacity-70 opacity-0 blur-[3px]" data-ns-animate data-delay="0.1">{t('aside.serviceParaTech')}</p>
+
+            <h3 className="text-2xl font-bold opacity-0 blur-[3px]" data-ns-animate data-delay="0.05">{t('aside.serviceTitleMark')}</h3>
+            <p className="mt-1 mb-6 text-sm opacity-70 opacity-0 blur-[3px]" data-ns-animate data-delay="0.1">{t('aside.serviceParaMark')}</p>
+
+            <h3 className="text-2xl font-bold opacity-0 blur-[3px]" data-ns-animate data-delay="0.05">{t('aside.serviceTitleVis')}</h3>
+            <p className="mt-1 mb-6 text-sm opacity-70 opacity-0 blur-[3px]" data-ns-animate data-delay="0.1">{t('aside.serviceParaVis')}</p>
+
+            
           </div>
         </div>
       </section>

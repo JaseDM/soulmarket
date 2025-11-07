@@ -36,6 +36,7 @@
         "placeholder": "How can we help?"
       }
     },
+    "imageAlt": "Illustration of a contact service",
     "options": {
       "team": {
         "6": "Technology (web, hosting, integrations)",
@@ -75,5 +76,15 @@
     "overlayStartHint": "Press Start or Spacebar to play.",
     "overlayGameOver": "Game Over!",
     "controlsHint": "Controls: Start (button), ← → move, ↑ rotate, ↓ soft drop, Space hard drop."
+  },
+  "aside": {
+    "title": "Choose your service and leave us your message",
+    "subtitle": "Select the area you are interested in and tell us your needs",
+    "serviceTitleTech": "Technology (Web, Hosting, Integrations):",
+    "serviceParaTech": "We develop complete digital solutions tailored to your business. We create custom websites, manage hosting with advanced security protocols, and perform integrations that optimize your company's internal processes. Our goal is to ensure that your digital infrastructure is efficient, secure, and scalable.",
+    "serviceTitleMark": "Marketing (SEO, SEM, Communications, Ads):",
+    "serviceParaMark": "We design result-oriented digital marketing strategies. From search engine positioning (SEO), online advertising campaigns (SEM/Google Ads), social media, and so on to capture your target audience.",
+    "serviceTitleVis": "Audiovisual (Photo & Video):",
+    "serviceParaVis": "We produce high-quality visual content to convey the essence of your brand. We carry out professional photography, corporate videos, advertising spots, and social media material, combining creativity and strategy to maximize impact."
   }
 }
