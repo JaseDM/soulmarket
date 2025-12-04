@@ -87,7 +87,7 @@ export function initSmoothScrolling(): Cleanup {
     // Lenis solo en desktop
     if (!isMobileLike()) {
       try {
-        const mod = await import('@studio-freight/lenis');
+        const mod = await import('lenis');
         const Lenis = (mod as { default: LenisCtor }).default;
         const instance = new Lenis({ lerp: 0.1, smoothWheel: true });
         lenis = instance;

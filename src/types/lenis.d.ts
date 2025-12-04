@@ -1,4 +1,4 @@
-declare module '@studio-freight/lenis' {
+declare module 'lenis' {
   export type LenisOptions = {
     lerp?: number; duration?: number; smoothWheel?: boolean; smoothTouch?: boolean;
     wheelMultiplier?: number; touchMultiplier?: number; infinite?: boolean;

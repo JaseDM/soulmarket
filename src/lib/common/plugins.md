@@ -13,7 +13,7 @@
 
 ### 🔧 Dependencias
 
-  * **Recomendado**: `npm i @studio-freight/lenis gsap`
+  * **Recomendado**: `npm i lenis gsap`
   * **(Opcional)** `gsap/ScrollTrigger` para sincronizar.
 
 ### 🧠 Cómo Funciona
