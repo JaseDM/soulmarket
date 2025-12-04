@@ -44,5 +44,6 @@ jobs:
              cd '${{ secrets.DEPLOY_PATH }}'
              npm ci
              npm run build
-             npx pm2 startOrReload ecosystem.config.js || npx pm2 start 'npm -- start' --name soulmarket
+             npx pm2 delete soulmarket || true
+             npx pm2 start ecosystem.config.cjs
              npx pm2 save"
