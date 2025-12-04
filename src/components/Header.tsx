@@ -82,7 +82,7 @@ export default function HeaderOne({
           'bg-white/30 dark:bg-gray-900/30',
           'border border-white/20 dark:border-white/10',
           'rounded-full',
-          'max-w-[1290px] xl:max-w-[1140px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] min-[500px]:max-w-[450px] min-[425px]:max-w-[375px] max-w-[320px]',
+          'max-w-[1290px] xl:max-w-[1140px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] min-[500px]:max-w-[450px] min-[425px]:max-w-[375px]',
           'px-3 py-2 xl:py-0',
           'left-1/2 -translate-x-1/2 top-5',
           'js-header-bar',
